@@ -1,6 +1,5 @@
 package com.mobai.medical.filter;
 
-import com.github.pagehelper.util.StringUtil;
 import com.mobai.medical.model.AccountModel;
 import com.mobai.medical.service.security.UserDetailsServiceImpl;
 import com.mobai.medical.utils.JwtUtils;
@@ -10,8 +9,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -40,6 +37,7 @@ public class JwtFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
     String token = httpServletRequest.getHeader("Authorization");
     httpServletResponse.setContentType("text/json;charset=utf-8");
+    System.out.println("here check token "+token);
     if (StringUtils.hasLength(token)) {
       String uname = null;
       try {

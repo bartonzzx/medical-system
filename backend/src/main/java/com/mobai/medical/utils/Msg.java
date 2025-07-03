@@ -35,7 +35,7 @@ public class Msg {
   }
 
   // 添加响应数据
-  public Msg Data(String key, Object value) {
+  public Msg data(String key, Object value) {
     this.data.put(key, value);
     return this;
   }
