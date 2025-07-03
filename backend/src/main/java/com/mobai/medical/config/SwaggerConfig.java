@@ -37,7 +37,7 @@ public class SwaggerConfig {
             .title("慧医数字医疗应用系统-API文档")
             .description("本文档描述了慧医数字医疗应用系统的接口定义")
             .version("1.0")
-            .contact(new Contact("QST", "http://www.itshixun.com/", "1365158882@qq.com"))
+            .contact(new Contact("mobai", "https://github.com/mintoneko", "mobaisilent@gmail.com"))
             .build();
   }
 }
