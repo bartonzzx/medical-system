@@ -22,9 +22,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
     AccountModel accountModel = accountMapper.securityLogin(s);
     if (accountModel == null) {
-      System.out.println("用户不存在");
-      throw new UsernameNotFoundException("用户不存在");
+      System.out.println("这里是UserDetailsServiceImpl.loadUserByUsername，用户不存在！");
+      throw new UsernameNotFoundException("用户不存在！");
     }
+    System.out.println("这里是UserDetailsServiceImpl.loadUserByUsername，正在打印登录用户信息！");
+    System.out.println("用户名："+accountModel.getUsername()+'\n'+"用户密码："+accountModel.getPassword()+'\n'+"用户认证："+accountModel.getAuthorities()+"\n"+"用户电话号码："+accountModel.getPhoneNumber()+'\n'+"用户角色："+accountModel.getUtype()+'\n'+"用户的真实姓名："+accountModel.getRealname());
     String role = accountModel.getUtype();
     List<GrantedAuthority> auths = AuthorityUtils.commaSeparatedStringToAuthorityList(role);
     return new AccountModel(accountModel.getId(), accountModel.getUname(),

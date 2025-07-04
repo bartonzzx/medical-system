@@ -17,6 +17,6 @@ public class CustomizeAuthenticationEntryPoint implements AuthenticationEntryPoi
   @Override
   public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
     httpServletResponse.setContentType("text/json;charset=utf-8");
-    httpServletResponse.getWriter().write(new ObjectMapper().writeValueAsString(Msg.fail().mess("未登录或登录已过期").code(10006)));
+    httpServletResponse.getWriter().write(new ObjectMapper().writeValueAsString(Msg.fail().mess("未登录或登录失效").code(10006)));
   }
 }

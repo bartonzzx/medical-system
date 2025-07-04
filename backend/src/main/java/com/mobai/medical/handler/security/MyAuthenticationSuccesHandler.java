@@ -24,7 +24,7 @@ public class MyAuthenticationSuccesHandler implements AuthenticationSuccessHandl
     String jwtToken = JwtUtils.getJwtToken(model.getId(),model.getUname(),model.getUtype());
     SecurityContextHolder.getContext().setAuthentication(authentication);
     AccountInfoModel info=new AccountInfoModel();
-    info.setRealname(model.getRealname());
+    info.setRealname(model.getUrealName());
     info.setUtype(model.getUtype());
     info.setUtype(info.getUtype().substring("ROLE_".length()));
     httpServletResponse.getWriter().write(new ObjectMapper().writeValueAsString(Msg.success().mess("登录成功").data("token",jwtToken).data("userinfo",info)));

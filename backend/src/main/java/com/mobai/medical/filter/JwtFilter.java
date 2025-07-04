@@ -22,9 +22,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
-/*
- *
- */
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
@@ -37,12 +34,12 @@ public class JwtFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
     String token = httpServletRequest.getHeader("Authorization");
     httpServletResponse.setContentType("text/json;charset=utf-8");
-    System.out.println("here check token "+token);
+    System.out.println("这里是JwtFilter.doFilterInternal，当前Token为："+token);
     if (StringUtils.hasLength(token)) {
       String uname = null;
       try {
         uname = (String) JwtUtils.getClaims(token).get("uname");
-        System.out.println("当前登录用户：" + uname);
+        System.out.println("解析Token成功，当前登录用户为："+uname);
       } catch (Exception e) {
         logger.info("失效身份");
       }
@@ -54,6 +51,7 @@ public class JwtFilter extends OncePerRequestFilter {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(model, null, grantedAuthorities);
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));// 设置认证信息到上下文
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        System.out.println("当前登录用户身份认证成功！");
         logger.info("身份认证成功");
       }
     }

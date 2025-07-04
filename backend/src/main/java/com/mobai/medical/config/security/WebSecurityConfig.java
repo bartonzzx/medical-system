@@ -6,12 +6,10 @@ import com.mobai.medical.handler.security.MyAccessDeniedHandler;
 import com.mobai.medical.handler.security.MyAuhenticationFailHandler;
 import com.mobai.medical.handler.security.MyAuthenticationSuccesHandler;
 import com.mobai.medical.service.security.UserDetailsServiceImpl;
-import com.mysql.cj.x.protobuf.MysqlxSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -81,9 +79,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf().disable();
   }
 
-  /*
-   * 解决前后端使用security跨域问题
-   */
+  // 解决前后端使用security跨域问题
   CorsConfigurationSource configurationSource() {
     CorsConfiguration corsConfiguration = new CorsConfiguration();
     corsConfiguration.addAllowedHeader("*");

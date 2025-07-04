@@ -34,19 +34,16 @@ public class Msg {
     return msg;
   }
 
-  // 添加响应数据
   public Msg data(String key, Object value) {
     this.data.put(key, value);
     return this;
   }
 
-  // 修改状态码
   public Msg code(Integer code) {
     this.setCode(code);
     return this;
   }
 
-  // 修改信息
   public Msg mess(String str) {
     this.setMessage(str);
     return this;

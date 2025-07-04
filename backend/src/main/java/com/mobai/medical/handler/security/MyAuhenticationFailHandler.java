@@ -16,6 +16,7 @@ import java.io.IOException;
 public class MyAuhenticationFailHandler implements AuthenticationFailureHandler {
   @Override
   public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+    System.out.println("here in MyAuhenticationFailHandler");
     httpServletResponse.setContentType("text/json;charset=utf-8");
     httpServletResponse.getWriter().write(new ObjectMapper().writeValueAsString(Msg.fail().mess("用户名或密码错误")));
   }
