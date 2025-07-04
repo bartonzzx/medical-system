@@ -41,7 +41,7 @@
   </script>
 
 <style lang="less" scoped>
-@import "../../assets/icon/icon.css";
+@import "../../../assets/icon/icon.css";
 .header-container {
   height: 100%;
   width: 100%;
@@ -59,7 +59,7 @@
   align-items: center;
 }
 .HomeLogo{
-  background: url("../../assets/HomeLogo.png") no-repeat;
+  background: url("../../../assets/HomeLogo.png") no-repeat;
   background-size: 100%;
   height: 100px;
   width: 400px;
