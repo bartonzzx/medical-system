@@ -28,18 +28,17 @@ const router = new VueRouter({
   routes: constantRoutes,
 });
 
-//先注释掉，因为没有后端接收登录信息
-// // 这是路由守卫，判断登录状态
-// router.beforeEach((to, from, next) => {
-//   document.title = to.meta.title;
-//   const token = localStorage.getItem("token");
-//   if (to.path === "/user/login" && token) {
-//     next("/");
-//   } else if (to.path!== "/user/login" &&!token) {
-//     next("/user/login");
-//   } else {
-//     next();
-//   }
-// });
+// 这是路由守卫，判断登录状态
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title;
+  const token = localStorage.getItem("token");
+  if (to.path === "/user/login" && token) {
+    next("/");
+  } else if (to.path!== "/user/login" &&!token) {
+    next("/user/login");
+  } else {
+    next();
+  }
+});
 
 export default router;
