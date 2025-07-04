@@ -66,6 +66,7 @@ export function judgeModifyResult(res) {
     });
   }
   return res;
+
 }
 // 判断重置密码结果
 export function judgeResetResult(res) {
@@ -81,4 +82,5 @@ export function judgeResetResult(res) {
     });
   }
   return res;
+
 }
