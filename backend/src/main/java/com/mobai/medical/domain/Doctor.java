@@ -16,7 +16,7 @@ public class Doctor extends SuperDomain {
   private Long id; // 医师id
 
   @NotBlank(message = "姓名不能为空")
-  @Pattern(regexp = "([^[\u2E80-\u9FFF]{2,4})", message = "姓名只能为汉字，且长度为2-4个汉字")
+  @Pattern(regexp = "(^[\u2E80-\u9FFF]{2,4})", message = "姓名只能为汉字，且长度为2-4个汉字")
   private String name; // 医师姓名
 
   @Range(min = 1, max = 130, message = "年龄格式错误")
