@@ -15,6 +15,23 @@ Vue.use(Fragment.Plugin);
 Vue.use(Element);
 Vue.prototype._ = _;
 
+Vue.mixin({
+  computed: {
+      // 进行按钮权限控制
+      hasRole() {
+          if (localStorage.getItem('userInfo')) {
+              if (JSON.parse(localStorage.getItem('userInfo')).utype === 1) {
+                  return true
+              } else {
+                  return false
+              }
+          } else {
+              return false
+          }
+      }
+  }
+});
+
 new Vue({
   router,
   store,
