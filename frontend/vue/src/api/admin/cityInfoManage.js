@@ -1,9 +1,10 @@
 import {
-    judgeDeleteResult,
-    judgeAddResult,
-    judgeQueryResult,
-  } from "../../utils/app";
-  import request from "../../utils/request";
+  judgeDeleteResult,
+  judgeAddResult,
+  judgeQueryResult,
+  judgeModifyResult,
+} from "../../utils/app";
+import request from "../../utils/request";
   
   // 查询城市管理信息api
   export function getCityInfo(pn, size, keyword = "") {
