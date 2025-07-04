@@ -15,9 +15,6 @@ import java.util.Date;
  */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-  /**
-   * 设置响应头的时间为GMT+8
-   */
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(new HandlerInterceptor() {

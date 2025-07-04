@@ -1,10 +1,12 @@
 import {
-    judgeDeleteResult,
-    judgeAddResult,
-    judgeQueryResult,
-    judgeModifyResult,
-  } from "../../utils/app";
-  import request from "../../utils/request";
+
+  judgeDeleteResult,
+  judgeAddResult,
+  judgeQueryResult,
+  judgeModifyResult,
+} from "../../utils/app";
+import request from "../../utils/request";
+
   // import Qs from 'qs'
   
   // 查询公司信息api

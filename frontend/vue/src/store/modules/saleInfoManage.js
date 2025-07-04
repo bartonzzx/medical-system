@@ -4,7 +4,9 @@ import {
     deleteSalePlace,
     modifySalePlaceInfo,
     getAllSalePlaceInfo,
-  } from "../../api/admin/saleInfoManage";
+
+  } from "../../api/admin/saleInfoManage.js";
+
   
   const state = {
     salePlaceInfo: {}, // 销售地点信息
