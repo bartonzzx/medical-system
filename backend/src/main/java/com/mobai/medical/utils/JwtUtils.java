@@ -13,7 +13,7 @@
 
     // 生成Token的方法
     public static final long EXPIRE_TIME = 1000 * 60 * 60 * 6; // 过期时间：6小时
-    public static final String APP_SECRET = "ukc8BDbRigUDaY6pZFfWus2jZWLPH0"; // 密钥
+    public static final String APP_SECRET = "ukc8BDbRigUDaY6pZFfWus2jZWLPH0"; // 密钥，可自定义
 
     public static String getJwtToken(Long id, String uname, String role) {
       String JwtToken = Jwts.builder()

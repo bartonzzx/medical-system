@@ -7,13 +7,9 @@ import java.util.Map;
 
 @Data
 public class Msg {
-  /*状态码*/
   private Integer code;
-  /*响应信息*/
   private String message;
-  /*响应是否成功标志*/
   private boolean success;
-  /*响应数据*/
   private Map<String, Object> data = new HashMap<>();
 
   // 响应成功
@@ -34,16 +30,19 @@ public class Msg {
     return msg;
   }
 
+  // 添加响应数据
   public Msg data(String key, Object value) {
     this.data.put(key, value);
     return this;
   }
 
+  // 修改响应码
   public Msg code(Integer code) {
     this.setCode(code);
     return this;
   }
 
+  // 修改响应消息
   public Msg mess(String str) {
     this.setMessage(str);
     return this;
