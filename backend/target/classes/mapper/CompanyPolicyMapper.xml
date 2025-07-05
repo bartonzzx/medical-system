@@ -41,4 +41,28 @@
         </where>
     </select>
 
+    <!-- 添加医药公司政策信息 -->
+    <insert id="saveCompanyPolicy" parameterType="com.mobai.medical.entity.CompanyPolicyEntity">
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="total">
+            select COUNT(*) from company_policy
+        </selectKey>
+        insert into company_policy(title, message,company_id, update_time, create_time)
+        values (#{title}, #{companyId},#{companyId}, #{updateTime}, #{createTime})
+    </insert>
+
+   <!-- 修改医药公司政策信息 -->
+    <update id="updateCompanyPolicy">
+        update company_policy
+        set title=#{title},
+            message=#{message},
+            update_time=#{updateTime}
+        where id = #{id}
+    </update>
+
+   <!-- 删除医药公司政策信息 -->
+    <delete id="deleteByCompanyPolicyById">
+        delete
+        from company_policy
+        where id = #{id}
+    </delete>
 </mapper>

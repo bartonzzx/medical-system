@@ -69,7 +69,6 @@ public class CompanyService {
   public Msg updateCompanyById(Long id, DrugCompany company) {
     company.setUpdatetime(new Date());
     company.setCompanyId(id);
-
     int i = companyMapper.updateCompanyById(company);
     if (i > 0) {
       return Msg.success().mess("修改成功");
