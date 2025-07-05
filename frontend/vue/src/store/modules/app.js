@@ -28,7 +28,7 @@ const actions = {
     const username = loginInfo.username.trim();
     return new Promise((resolve, reject) => {
       login(username, loginInfo.password).then((res) => {
-        if (res.data.code === "20000") {
+        if (res.data.code === 20000) {
           Message({
             type: "success",
             message: "登录成功",
