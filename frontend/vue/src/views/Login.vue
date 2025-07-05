@@ -92,7 +92,7 @@ export default {
   background-size: 800px 509px;
   width: 1000px;
   height: 800px;
-  margin-left: 555px;
+  margin-left:400px;
   margin-top: 100px;
   overflow: hidden;
 }

@@ -28,7 +28,7 @@ const actions = {
     const username = loginInfo.username.trim();
     return new Promise((resolve, reject) => {
       login(username, loginInfo.password).then((res) => {
-        if (res.data.code === "20000") {
+        if (res.data.code === 20000) {
           Message({
             type: "success",
             message: "登录成功",
@@ -37,6 +37,7 @@ const actions = {
             "userInfo",
             JSON.stringify(res.data.data.userInfo)
           );
+
           localStorage.setItem("token", res.data.data.token);
           commit("SET_TOKEN", res.data.data.token);
           resolve();

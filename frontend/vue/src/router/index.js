@@ -1,8 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Login from "../views/Login.vue";
-import Home from "../views/Home/index.vue";
 import Layout from "../layout/index.vue"
+
 
 Vue.use(VueRouter);
 
@@ -23,21 +23,6 @@ export const constantRoutes = [
     path: "/",
     redirect: "/home",
   },
-  {
-    path: "/home",
-    name: "Home",
-    component: Layout,
-    meta: { title: "首页" },
-    children: [
-      {
-        path: "/home",
-        name: "Home",
-        component: () => import("../views/Home/index.vue"),
-        meta: { title: "首页" },
-      },
-    ] 
-  },
-
 ];
 
 const router = new VueRouter({

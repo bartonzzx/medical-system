@@ -7,7 +7,6 @@ const getters = {
     cityInfo: (state) => state.cityInfoManage.cityInfo,
     drugInfo: (state) => state.drugInfoManage.drugInfo,
     medicalPolicyInfo: (state) => state.medicalPolicyInfoManage.medicalPolicyInfo,
-    drugInfo: (state) => state.drugInfoManage.drugInfo,
     companyPolicyInfo: (state) => state.companyPolicyInfoManage.companyPolicyInfo,
     doctorInfo: (state) => state.doctorInfoManage.doctorInfo,
     doctorLevelAndType: (state) => state.doctorInfoManage.doctorLevelAndType,
