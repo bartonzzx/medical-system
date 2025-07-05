@@ -5,10 +5,8 @@ import com.mobai.medical.service.DoctorService;
 import com.mobai.medical.utils.Msg;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
 
@@ -17,22 +15,44 @@ import javax.annotation.security.RolesAllowed;
 @RequestMapping("/api/doctors")
 @CrossOrigin
 public class DoctorController {
+
   @Autowired
   private DoctorService doctorService;
 
-  // 分页查询医师信息
   @RolesAllowed({"1", "2"})
   @GetMapping(value = "")
   public Msg getDoctorWithPage(DoctorParam param) {
-    return doctorService.getDoctorWithPage(param);
+    Msg doctorWithPage = doctorService.getDoctorWithPage(param);
+    return doctorWithPage;
   }
 
-  // 进行接口权限控制，只有拥有1或者2权限的才能访问该接口
-
-  // 获取所有医师级别信息和诊治类型信息
   @RolesAllowed({"1", "2"})
   @GetMapping("/info")
   public Msg getLevelAndType() {
     return doctorService.getLevelAndType();
+  }
+
+  @RolesAllowed({"1", "2"})
+  @PostMapping(value = "")
+  public Msg saveDoctor(@RequestBody @Validated DoctorParam param) {
+    return doctorService.saveDoctor(param);
+  }
+
+  @RolesAllowed({"1"})
+  @PutMapping("/{id}")
+  public Msg updateDoctor(@PathVariable("id") Long id, @RequestBody DoctorParam param) {
+    return doctorService.updateDoctor(id, param);
+  }
+
+  @RolesAllowed({"1"})
+  @DeleteMapping("{id}")
+  public Msg deleteDoctor(@PathVariable("id") Long id) {
+    return doctorService.deleteDoctorById(id);
+  }
+
+  @RolesAllowed({"1"})
+  @PutMapping("/reset/{id}")
+  public Msg resetPwd(@PathVariable Long id) {
+    return doctorService.resetPwd(id);
   }
 }

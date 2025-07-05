@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mobai.medical.mapper.CompanyPolicyMapper">
+
+    <!-- 查询所有的医药公司政策结果集 -->
+    <resultMap id="getAllPolicyMap" type="com.mobai.medical.model.CompanyPolicyModel">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="message" column="message"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+
+        <association property="drugCompanyModel" javaType="com.mobai.medical.model.DrugCompanyModel">
+            <id property="companyId" column="company_id"/>
+            <result property="companyName" column="company_name"/>
+        </association>
+    </resultMap>
+
+    <!-- 查询所有的医药公司政策 -->
+    <select id="getAllPolicy" resultMap="getAllPolicyMap">
+        SELECT
+        cp.id,
+        cp.title,
+        cp.message,
+        cp.company_id,
+        cp.update_time,
+        dc.company_name
+        FROM `company_policy` cp
+        LEFT JOIN drugcompany dc ON cp.company_id = dc.company_id
+        <where>
+            <trim prefixOverrides="OR">
+                <if test="keyword != null and keyword != ''">
+                    <bind name="key" value="'%' + keyword + '%'"/>
+                    OR cp.title LIKE #{key}
+                    OR cp.id LIKE #{key}
+                    OR cp.message LIKE #{key}
+                    OR cp.company_id LIKE #{key}
+                    OR cp.update_time LIKE BINARY #{key}
+                </if>
+            </trim>
+        </where>
+    </select>
+
+    <!-- 添加医药公司政策信息 -->
+    <insert id="saveCompanyPolicy" parameterType="com.mobai.medical.entity.CompanyPolicyEntity">
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="total">
+            select COUNT(*) from company_policy
+        </selectKey>
+        insert into company_policy(title, message,company_id, update_time, create_time)
+        values (#{title}, #{companyId},#{companyId}, #{updateTime}, #{createTime})
+    </insert>
+
+   <!-- 修改医药公司政策信息 -->
+    <update id="updateCompanyPolicy">
+        update company_policy
+        set title=#{title},
+            message=#{message},
+            update_time=#{updateTime}
+        where id = #{id}
+    </update>
+
+   <!-- 删除医药公司政策信息 -->
+    <delete id="deleteByCompanyPolicyById">
+        delete
+        from company_policy
+        where id = #{id}
+    </delete>
+</mapper>
