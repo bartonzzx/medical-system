@@ -7,12 +7,13 @@ function tree(data, arr) {
       path: datas.path,
       name: datas.name,
       component:
-        datas.component === "Layout"
+        datas.component == "Layout"
          ? Layout
           : () => import(`../views/${datas.component}/index.vue`),
       meta: {
         title: datas.meta.title,
       },
+      //子路由
       children: [],
     });
     if (datas.children) {
@@ -35,5 +36,6 @@ export function getMenu() {
         }
       }
     );
-  });
+  })
 }
+

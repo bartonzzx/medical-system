@@ -44,4 +44,36 @@
     <select id="getAllTreatType" resultType="com.mobai.medical.model.TreatTypeModel">
         select id,name from `treat_type`
     </select>
+
+    <!-- 添加医师信息 -->
+    <insert id="saveDoctor">
+        INSERT INTO `doctor` (
+            name, age, sex, level_id, phone,
+            account_id, type_id, createtime, updatetime
+        ) VALUES (
+                     #{name}, #{age}, #{sex}, #{levelId}, #{phoneNumber},
+                     #{accountId}, #{typeId}, #{createTime}, #{updateTime}
+                 )
+    </insert>
+
+    <!-- 更新医师信息 -->
+    <update id="updateDoctor">
+        UPDATE `doctor` SET
+                            name = #{name},
+                            age = #{age},
+                            sex = #{sex},
+                            level_id = #{levelId},
+                            phone = #{phoneNumber},
+                            type_id = #{typeId},
+                            updatetime = #{updateTime}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据ID删除医师信息并删除关联账号 -->
+    <delete id="deleteDoctorById">
+        DELETE a, d
+        FROM doctor d, account a
+        WHERE d.id = #{id}
+          AND d.account_id = a.id
+    </delete>
 </mapper>

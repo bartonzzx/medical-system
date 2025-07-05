@@ -37,6 +37,7 @@ const actions = {
             "userInfo",
             JSON.stringify(res.data.data.userInfo)
           );
+
           localStorage.setItem("token", res.data.data.token);
           commit("SET_TOKEN", res.data.data.token);
           resolve();

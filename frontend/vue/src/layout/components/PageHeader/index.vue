@@ -10,7 +10,6 @@
             欢迎来到慧医数字医疗应用系统，当前用户：
             <span id="username">{{ userName }}</span>
           </span>
-  
           <div class="exit-area" @click="handleLogout">
             <p class="iconfont icon-tuichu"></p>
             <p class="logout">退出登录</p>
@@ -20,7 +19,7 @@
     </div>
   </template>
   
-  <script>
+<script>
   export default {
     name: "PageHeader",
     methods: {
@@ -38,7 +37,7 @@
       },
     },
   };
-  </script>
+</script>
 
 <style lang="less" scoped>
 @import "../../../assets/icon/icon.css";

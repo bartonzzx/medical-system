@@ -2,7 +2,8 @@ import axios from "axios";
 import { Message } from "element-ui";
 import router from "../router/index";
 
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true;//前端请求会携带cookie
+// 解决跨域问题，允许携带cookie
 // 创建 axios 实例
 let service = axios.create({
   baseURL: "http://localhost:8080/api", //远程服务器地址

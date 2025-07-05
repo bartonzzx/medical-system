@@ -9,7 +9,9 @@ export default {
   name: "app",
   mounted(){
     if(localStorage.getItem('userInfo')){
-      this.$store.dispatch('app/getMenuList');
+      //打印调试
+      console.log("已保存 userInfo = ", localStorage.getItem("userInfo"));
+      this.$store.dispatch('app/setMenuList');
     }
   },
   

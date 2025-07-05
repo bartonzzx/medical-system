@@ -16,6 +16,8 @@
       </el-container>
     </el-container>
   </template>
+
+
   <script>
   import PageSider from "./components/PageSider/index.vue";
   import PageHeader from "./components/PageHeader/index.vue";
@@ -24,6 +26,8 @@
     components: { PageSider, PageHeader },
   };
   </script>
+
+  
   <style scoped lang="less">
   .home-container {
     position: fixed;
