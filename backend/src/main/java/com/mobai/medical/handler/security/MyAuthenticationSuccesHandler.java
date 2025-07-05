@@ -27,6 +27,6 @@ public class MyAuthenticationSuccesHandler implements AuthenticationSuccessHandl
     info.setRealname(model.getUrealName());
     info.setUtype(model.getUtype());
     info.setUtype(info.getUtype().substring("ROLE_".length()));
-    httpServletResponse.getWriter().write(new ObjectMapper().writeValueAsString(Msg.success().mess("登录成功").data("token",jwtToken).data("userinfo",info)));
+    httpServletResponse.getWriter().write(new ObjectMapper().writeValueAsString(Msg.success().mess("登录成功").data("token",jwtToken).data("userInfo",info)));
   }
 }
