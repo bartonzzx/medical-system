@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.mobai.medical.domain.DrugCompany;
 import com.mobai.medical.entity.DrugCompanyEntity;
 import com.mobai.medical.mapper.CompanyMapper;
+import com.mobai.medical.mapper.CompanyPolicyMapper;
 import com.mobai.medical.utils.Msg;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class CompanyService {
 
   @Autowired
   private CompanyMapper companyMapper;
+
+  @Autowired
+  private CompanyPolicyMapper companyPolicyMapper;
 
   public PageInfo<DrugCompany> getCompanyWithPage(Integer pn, Integer size, String name) {
     if (pn == null && size == null) {
@@ -76,12 +80,19 @@ public class CompanyService {
     return Msg.fail().mess("修改失败");
   }
 
+  /**
+   * 根据id删除医药公司信息
+   *
+   * @param id
+   * @return
+   */
   public Msg deleteCompanyById(Integer id) {
     int i = companyMapper.deleteCompanyById(id);
+    companyPolicyMapper.deletePolicyByCompany(id);
     if (i > 0) {
       return Msg.success().mess("删除成功");
     } else {
-      return Msg.fail().mess("删除失败");
+      return Msg.fail().mess("删除成功");
     }
   }
 }

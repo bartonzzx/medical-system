@@ -5,7 +5,7 @@
 
 <mapper namespace="com.mobai.medical.mapper.CityMapper">
 
-    <!-- 城市结果映射 -->
+    <!-- 城市结果映射，查看postman的信息，这里就是info的内容（结果集） -->
     <resultMap id="AllCityMap" type="com.mobai.medical.model.CityModel">
         <id property="cityId" column="city_id"/>
         <result property="cityNumber" column="city_number"/>
@@ -40,4 +40,27 @@
         LIMIT 1
     </select>
 
+
+    <!-- 添加一个城市信息 -->
+    <insert id="saveCity" parameterType="com.mobai.medical.entity.CityEntity">
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="total">
+            select COUNT(*) from city
+        </selectKey>
+        insert into city(updatetime,createtime,city_number)
+        values (#{updatetime},#{createtime},#{cityNumber})
+    </insert>
+
+    <!-- 根据id删除城市信息 -->
+    <delete id="deleteCityById">
+        delete
+        from city
+        where city_id = #{id}
+    </delete>
+
+    <!-- 通过名字查询 -->
+    <select id="checkCityByName" resultType="int">
+        select COUNT(*)
+        from city
+        where city_number = #{number}
+    </select>
 </mapper>

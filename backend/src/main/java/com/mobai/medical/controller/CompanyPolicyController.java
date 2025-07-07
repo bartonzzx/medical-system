@@ -8,6 +8,7 @@ import com.mobai.medical.service.CompanyPolicyService;
 import com.mobai.medical.utils.Msg;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
@@ -27,31 +28,39 @@ public class CompanyPolicyController {
     return msg;
   }
 
+  /**
+   * 添加医药公司政策信息
+   *
+   * @param param
+   * @return
+   */
   @RolesAllowed({"1"})
   @PostMapping(value = "")
-  public Msg saveCompanyPolicy(@RequestBody CompanyPolicy cp) {
-    String title = cp.getTitle();
-    String message = cp.getMessage();
-    Long companyId = cp.getCompanyId();
-
-    if (title == null || message == null || companyId == null || title == "" || message == "") {
-      return Msg.fail().mess("填写信息不完整");
-    }
-
-    return companyPolicyService.saveCompanyPolicy(cp);
+  public Msg saveMedicalPolicy(@RequestBody CompanyPolicyParam param) {
+    Msg msg = companyPolicyService.savePolicy(param);
+    return msg;
   }
 
+  // 更新医药公司政策信息
   @RolesAllowed({"1"})
   @PutMapping(value = "/{id}")
-  public Msg updateCompanyPolicy(@PathVariable("id") Long id, @RequestBody CompanyPolicyEntity ce) {
-    Msg msg = companyPolicyService.updataCompanyPolicy(id, ce);
-    return msg;
+  public Msg updateMedicalPolicy(@PathVariable("id") Long id, @RequestBody CompanyPolicyParam param) {
+    if (!StringUtils.hasLength(param.getTitle())) {
+      return Msg.fail().mess("标题不能为空");
+    }
+    if (!StringUtils.hasLength(param.getMessage())) {
+      return Msg.fail().mess("内容不能为空");
+    }
+    if (param.getCompanyId() == null) {
+      return Msg.fail().mess("公司ID不能为空");
+    }
+    return companyPolicyService.updatePolicy(id, param);
   }
 
+  // 根据id删除医药公司政策
   @RolesAllowed({"1"})
-  @DeleteMapping("{id}")
-  public Msg deleteCompanyPolicyById(@PathVariable("id") Integer id) {
-    Msg msg = companyPolicyService.deleteCompanyPolicyById(id);
-    return msg;
+  @DeleteMapping("/{id}")
+  public Msg deletePolicy(@PathVariable("id") Long id) {
+    return companyPolicyService.deletePolicy(id);
   }
 }

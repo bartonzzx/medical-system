@@ -85,6 +85,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     corsConfiguration.addAllowedHeader("*");
     corsConfiguration.addAllowedMethod("*");
     corsConfiguration.addAllowedOriginPattern("*");
+    // corsConfiguration.addAllowedOrigin("*");
     corsConfiguration.setAllowCredentials(true);//前后端分离项目需要携带cookie时，需要此句，但加上之后origin里就不能为"*"
     corsConfiguration.setMaxAge(3600L);
 

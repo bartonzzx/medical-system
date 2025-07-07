@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mobai.medical.mapper.MedicalPolicyMapper">
+
+    <!-- 分页查询结果映射表 -->
+    <resultMap id="getAllPolicyMap" type="com.mobai.medical.model.MedicalPolicyModel">
+        <!-- 主对象字段映射 -->
+        <id property="id" column="id"/>                     <!-- 政策ID -->
+        <result property="title" column="title"/>           <!-- 政策标题 -->
+        <result property="message" column="message"/>       <!-- 政策内容 -->
+        <result property="createTime" column="create_time"/><!-- 创建时间 -->
+        <result property="updateTime" column="update_time"/><!-- 更新时间 -->
+
+        <!-- 关联城市对象 -->
+        <association property="cityModel" javaType="com.mobai.medical.model.CityModel">
+            <id property="cityId" column="city_id"/>       <!-- 城市ID -->
+            <result property="city" column="name"/>        <!-- 城市名称 -->
+        </association>
+    </resultMap>
+
+    <!-- 条件查询医保政策 -->
+    <select id="getAllPolicy" resultMap="getAllPolicyMap">
+        SELECT mp.id, mp.title, mp.message,
+        mp.create_time, mp.update_time, mp.city_id, s.name
+        FROM `medical_policy` mp
+        LEFT JOIN city c ON mp.city_id = c.city_id
+        LEFT JOIN sysregion s ON s.id = c.city_number
+        <where>
+            <trim prefixOverrides="and">
+                <if test="id != null">
+                    <bind name="mid" value="'%' + id + '%'"/>
+                    AND mp.id LIKE #{mid}
+                </if>
+
+                <if test="title != null and title != ''">
+                    <bind name="ptitle" value="'%' + title + '%'"/>
+                    AND mp.title LIKE #{ptitle}
+                </if>
+
+                <if test="updateTime != null and updateTime != ''">
+                    <bind name="update" value="'%' + updateTime + '%'"/>
+                    AND mp.update_time LIKE #{update}
+                </if>
+
+                <if test="cityId != null">
+                    AND mp.city_id = #{cityId}
+                </if>
+            </trim>
+        </where>
+    </select>
+
+    <!-- 添加医保政策 -->
+    <insert id="saveMedicalPolicy" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `medical_policy`(title, city_id, create_time, update_time, message)
+        VALUES (#{title}, #{cityId}, #{createTime}, #{updateTime}, #{message})
+    </insert>
+
+    <!-- 更新医保政策 -->
+    <update id="updateMedicalPolicy">
+        UPDATE `medical_policy`
+        SET title       = #{title},
+            city_id     = #{cityId},
+            message     = #{message},
+            update_time = #{updateTime}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据id删除医保政策 -->
+    <delete id="deleteMedicalPolicy">
+        DELETE
+        FROM `medical_policy`
+        WHERE id = #{id}
+    </delete>
+
+    <!-- 根据城市id删除医保政策 -->
+    <delete id="deleteByCity">
+        DELETE FROM `medical_policy`
+        WHERE city_id = #{city};  <!-- 注意：SQL语句末尾分号可能需根据运行环境调整 -->
+    </delete>
+
+</mapper>
