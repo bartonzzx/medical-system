@@ -75,7 +75,7 @@
     <!-- 根据城市id删除医保政策 -->
     <delete id="deleteByCity">
         DELETE FROM `medical_policy`
-        WHERE city_id = #{city};  <!-- 注意：SQL语句末尾分号可能需根据运行环境调整 -->
+        WHERE city_id = #{city};
     </delete>
 
 </mapper>
