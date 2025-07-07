@@ -1,22 +1,39 @@
-import { createApp } from 'vue'
+import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
-import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
-import '@/assets/global.css'  
-import zhCn from 'element-plus/es/locale/lang/zh-cn'
-import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import router from './router'//引入router
+import store from './store'//引入vuex
 
-const app = createApp(App)
+import _ from 'lodash'//js库
+import "./style/reset.css";//引入样式
+import Fragment from "vue-fragment";//处理Dom插件
+import "animate.css";//引入样式
+import Element from 'element-ui';
+import "element-ui/lib/theme-chalk/index.css";
 
-app.use(router)
-app.use(ElementPlus, {
-    locale: zhCn,
-})
+Vue.config.productionTip = false;
+Vue.use(Fragment.Plugin);
+Vue.use(Element);
+Vue.prototype._ = _;
 
-// Register Element Plus icons globally
-for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-    app.component(key, component)
-}
+Vue.mixin({
+  computed: {
+      // 进行按钮权限控制
+      hasRole() {
+          if (localStorage.getItem('userInfo')) {
+              if (JSON.parse(localStorage.getItem('userInfo')).utype === 1) {
+                  return true
+              } else {
+                  return false
+              }
+          } else {
+              return false
+          }
+      }
+  }
+});
 
-app.mount('#app')
+new Vue({
+  router,
+  store,
+  render: h => h(App)
+}).$mount('#app')

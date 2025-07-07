@@ -1,62 +1,125 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Login from "../views/Login.vue";
+import Layout from "../layout/index.vue";
 
 
-const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {path:'/',redirect: '/manager/home', },
-    {
-      path:'/manager',
-      name:'manager',
-      component: () => import('../views/Manager.vue'),
-      children:[
-        {
-          path: 'home',//注意嵌套的不用加斜杠
-          name: 'home',
-          meta: {
-            title: '首页' //title添加标题
-          },
-          component: () => import('../views/Home.vue'),
-        },
-        {
-          path:'test',
-          name:'test',
-          meta: {
-            title: '测试页面'
-          },
-          component: () => import('../views/Test.vue'),
-        },
-        {
-          path:'data',
-          name:'data',
-          meta: {
-            title: '数据管理'
-          },
-          component: () => import('../views/Data.vue'),
-        },
-      ]
-    },
-    {
-      path:'/404',
-      name:'NotFound',
-      meta: {
-        title: '404 Not Found'
+Vue.use(VueRouter);
+
+// 解决导航栏或者底部导航tabBar中的vue-router在3.0版本以上频繁点击菜单报错的问题。
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch((err) => err);
+};
+
+export const constantRoutes = [
+  // development mode
+  {
+    path: "/dev",
+    name: "Dev",
+    component: () => import("../views/Home/index.vue"),
+    meta: { title: "dev" },
+  },
+  {
+    path: "/user/login",
+    name: "Login",
+    component: Login,
+    meta: { title: "登录" },
+  },
+  {
+    path: "/",
+    component: Layout,
+    redirect: "/home",
+    children: [
+      {
+        path: "home",
+        name: "Home",
+        component: () => import("../views/Home/index.vue"),
+        meta: { title: "首页" },
       },
-      component: () => import('../views/404.vue'),
-    },
-    {
-      path: '/:pathMatch(.*)*', // 捕获所有未匹配的路径
-      redirect: '/404', // 重定向到 404 页面
-      meta: {
-        title: '404 Not Found'
+      {
+        path: "city-manage",
+        name: "CityManage",
+        component: () => import("../views/CityManage/index.vue"),
+        meta: { title: "城市管理" },
       },
-    },
-  ],
-})
+      {
+        path: "company-manage",
+        name: "CompanyManage",
+        component: () => import("../views/CompanyManage/index.vue"),
+        meta: { title: "公司管理" },
+      },
+      {
+        path: "company-policy",
+        name: "CompanyPolicy",
+        component: () => import("../views/CompanyPolicy/index.vue"),
+        meta: { title: "公司政策" },
+      },
+      {
+        path: "doctor-manage",
+        name: "DoctorManage",
+        component: () => import("../views/DoctorManage/index.vue"),
+        meta: { title: "医生管理" },
+      },
+      {
+        path: "drug-manage",
+        name: "DrugManage",
+        component: () => import("../views/DrugManage/index.vue"),
+        meta: { title: "药品管理" },
+      },
+      {
+        path: "matarial-manage",
+        name: "MatarialManage",
+        component: () => import("../views/MatarialManage/index.vue"),
+        meta: { title: "材料管理" },
+      },
+      {
+        path: "medical-policy",
+        name: "MedicalPolicy",
+        component: () => import("../views/MedicalPolicy/index.vue"),
+        meta: { title: "医疗政策" },
+      },
+      {
+        path: "sale-manage",
+        name: "SaleManage",
+        component: () => import("../views/SaleManage/index.vue"),
+        meta: { title: "销售管理" },
+      },
+    ],
+  },
+];
+
+const router = new VueRouter({
+  //  TODO: 替换为history模式路由 
+  mode: "hash",
+  routes: constantRoutes,
+});
+
+// 这是路由守卫，判断登录状态
 router.beforeEach((to, from, next) => {
   // 设置页面标题
-  document.title = to.meta.title
-  next() // 确保一定要调用 next() 方法来继续路由导航
-})
+  if (to.meta && to.meta.title) {
+    document.title = to.meta.title;
+  }
+  
+  const token = localStorage.getItem("token");
+  
+  // 定义不需要登录验证的页面
+  const publicPages = ["/user/login", "/dev"];
+  const isPublicPage = publicPages.includes(to.path);
+  
+  // 如果要去登录页面但已经有token，重定向到首页
+  if (to.path === "/user/login" && token) {
+    next("/");
+  } 
+  // 如果要去需要登录的页面但没有token，重定向到登录页
+  else if (!isPublicPage && !token) {
+    next("/user/login");
+  } 
+  // 其他情况正常放行
+  else {
+    next();
+  }
+});
 
-export default router
+export default router;
