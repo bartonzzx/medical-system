@@ -3,11 +3,14 @@ package com.mobai.medical.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mobai.medical.domain.Sale;
+import com.mobai.medical.entity.SaleEntity;
 import com.mobai.medical.mapper.SaleMapper;
 import com.mobai.medical.utils.Msg;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -35,6 +38,46 @@ public class SaleService {
       return Msg.fail().mess("没有找到");
     }
     return Msg.success().data("sale", sale);
+  }
+
+  // 添加一个销售地点
+  public Msg saveSale(Sale sale) {
+    Date d = new Date();
+    sale.setCreatetime(d);
+    sale.setUpdatetime(d);
+    SaleEntity se = new SaleEntity();
+    BeanUtils.copyProperties(sale, se);
+    try {
+      int i = saleMapper.saveSale(se);
+      if (i > 0) {
+        Long num = se.getTotal() % 5 == 0 ? (se.getTotal() / 5) : (se.getTotal() / 5) + 1;
+        return Msg.success().data("pages", num).mess("添加成功");
+      }
+      return Msg.fail().mess("添加失败");
+    } catch (Exception e) {
+      return Msg.fail().mess("公司编号已经存在");
+    }
+  }
+
+  // 根据id更新销售地点信息
+  public Msg updateSaleById(Long id, Sale sale) {
+    sale.setUpdatetime(new Date());
+    sale.setSaleId(id);
+    int i = saleMapper.updateSaleById(sale);
+    if (i > 0) {
+      return Msg.success().mess("修改成功");
+    }
+    return Msg.fail().mess("修改失败");
+  }
+
+  // 根据id删除销售地点信息
+  public Msg deleteSaleById(Integer id) {
+    int i = saleMapper.deleteSaleById(id);
+    if (i > 0) {
+      return Msg.success().mess("删除成功");
+    } else {
+      return Msg.fail().mess("删除失败");
+    }
   }
 
 }
