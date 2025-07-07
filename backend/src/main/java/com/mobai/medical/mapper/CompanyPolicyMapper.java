@@ -11,9 +11,12 @@ import java.util.List;
 public interface CompanyPolicyMapper {
   List<CompanyPolicyModel> getAllPolicy(CompanyPolicyParam param);
 
-  int saveCompanyPolicy(CompanyPolicyEntity ce);
+  int savePolicy(CompanyPolicyEntity entity);
 
-  int updateCompanyPolicy(CompanyPolicyEntity ce);
+  int updatePolicy(CompanyPolicyEntity entity);
 
-  int deleteByCompanyPolicyById(Integer id);
+  // 删除医药公司政策
+  int deletePolicy(Long id);
+
+  int deletePolicyByCompany(Integer id);
 }

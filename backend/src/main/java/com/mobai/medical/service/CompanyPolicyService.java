@@ -10,6 +10,7 @@ import com.mobai.medical.mapper.CompanyPolicyMapper;
 import com.mobai.medical.model.CompanyPolicyModel;
 import com.mobai.medical.param.CompanyPolicyParam;
 import com.mobai.medical.utils.Msg;
+import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,43 +36,46 @@ public class CompanyPolicyService {
     return Msg.success().data("policyInfo", info);
   }
 
-  public Msg saveCompanyPolicy(CompanyPolicy cp) {
-    Date d = new Date();
-    cp.setCreateTime(d);
-    cp.setUpdateTime(d);
-
-    CompanyPolicyEntity cpe = new CompanyPolicyEntity();
-    BeanUtils.copyProperties(cp, cpe); // 对象拷贝
-
-    int i = companyPolicyMapper.saveCompanyPolicy(cpe);
+  /**
+   * 添加医药公司政策
+   *
+   * @param param
+   * @return
+   */
+  public Msg savePolicy(CompanyPolicyParam param) {
+    param.setCreateTime(new DateTime().toDate());
+    param.setUpdateTime(new DateTime().toDate());
+    CompanyPolicyEntity mpEntity = new CompanyPolicyEntity();
+    BeanUtils.copyProperties(param, mpEntity);
+    int i = companyPolicyMapper.savePolicy(mpEntity);
+    List<CompanyPolicyModel> allPolicy = companyPolicyMapper.getAllPolicy(null);
+    mpEntity.setTotal((long) allPolicy.size());
     if (i > 0) {
-      Long num = cpe.getTotal() % 5 == 0 ?
-              (cpe.getTotal() / 5) :
-              (cpe.getTotal() / 5) + 1;
-      return Msg.success().data("numberOfAdd", 1).data("pages", num).mess("添加成功");
+      Long num = mpEntity.getTotal() % 5 == 0 ? (mpEntity.getTotal() / 5) : (mpEntity.getTotal() / 5) + 1;
+      return Msg.success().mess("添加成功").data("numberOfAdd", i).data("pages", num);
     }
     return Msg.fail().mess("添加失败");
   }
 
-  public Msg updataCompanyPolicy(Long id, CompanyPolicyEntity ce) {
-    ce.setUpdateTime(new Date());
-    ce.setId(id);
-    // 注意这里给传入数据库的实体进行id赋值，和updateTime赋值，参考CompanyService也是一样的，当然，还是一步一步标断点调试过来！
-    // System.out.println(ce.toString());
-    int i = companyPolicyMapper.updateCompanyPolicy(ce);
+  // 更新医药公司政策
+  public Msg updatePolicy(Long id, CompanyPolicyParam param) {
+    CompanyPolicyEntity entity = new CompanyPolicyEntity();
+    BeanUtils.copyProperties(param, entity);
+    entity.setUpdateTime(new DateTime().toDate());
+    entity.setId(id);
+    int i = companyPolicyMapper.updatePolicy(entity);
     if (i > 0) {
-      return Msg.success().mess("修改成功");
-    } else {
-      return Msg.fail().mess("修改失败");
+      return Msg.success().mess("修改成功").data("updateData", entity);
     }
+    return Msg.fail().mess("修改失败");
   }
 
-  public Msg deleteCompanyPolicyById(Integer id) {
-    int i = companyPolicyMapper.deleteByCompanyPolicyById(id);
+  // 根据id删除医药公司政策
+  public Msg deletePolicy(Long id) {
+    int i = companyPolicyMapper.deletePolicy(id);
     if (i > 0) {
-      return Msg.success().mess("删除成功");
-    } else {
-      return Msg.fail().mess("删除失败");
+      return Msg.success().mess("删除成功").data("numberOfDelete", i);
     }
+    return Msg.fail().mess("删除失败");
   }
 }
