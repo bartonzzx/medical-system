@@ -28,7 +28,7 @@ replay_pid*
 build/
 out/
 bin/
-.idea
+.idea/
 
 # System files
 .DS_Store
