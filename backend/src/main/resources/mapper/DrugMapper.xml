@@ -30,9 +30,53 @@
 
     <!-- 药品子查询，查询药品id对应的所有药店 -->
     <select id="getWithSale" resultType="com.mobai.medical.model.SaleModel">
-        SELECT s.sale_id, s.sale_name FROM sale s
-        LEFT JOIN drug_sale ds ON s.sale_id = ds.sale_id
+        SELECT s.sale_id, s.sale_name
+        FROM sale s
+                 LEFT JOIN drug_sale ds ON s.sale_id = ds.sale_id
         WHERE ds.drug_id = #{drugId}
     </select>
 
+    <!-- 新增药品信息 -->
+    <insert id="saveDrug" parameterType="com.mobai.medical.param.DrugParam"
+            keyProperty="drugId" useGeneratedKeys="true">
+        INSERT INTO drug(drug_name, drug_info, drug_effect, drug_img,
+                         createtime, updatetime, publisher)
+        VALUES (#{drugName}, #{drugInfo}, #{drugEffect}, #{drugImg},
+                #{createtime}, #{updatetime}, #{drugPublisher})
+    </insert>
+
+    <!-- 根据id更新药品信息 -->
+    <update id="updateDrugById">
+        UPDATE drug
+        SET drug_name   = #{drugName},
+            drug_info   = #{drugInfo},
+            drug_effect = #{drugEffect},
+            drug_img    = #{drugImg},
+            createtime  = #{createtime},
+            updatetime  = #{updatetime}
+        WHERE drug_id = #{drugId}
+    </update>
+
+    <!-- 插入药品对应的售卖地点 -->
+    <insert id="insertSalePlace">
+        INSERT INTO drug_sale(drug_id, sale_id)
+        VALUES
+        <foreach collection="saleIds" item="item" separator=",">
+            (#{drugId}, #{item})
+        </foreach>
+    </insert>
+
+    <!-- 根据药品id删除对应的售卖地点 -->
+    <delete id="deleteSaleByDrugId">
+        DELETE
+        FROM drug_sale
+        WHERE drug_id = #{drugId}
+    </delete>
+
+    <!-- 根据药品id删除对应药品 -->
+    <delete id="deleteDrugById">
+        DELETE
+        FROM drug
+        WHERE drug_id = #{drugId}
+    </delete>
 </mapper>
