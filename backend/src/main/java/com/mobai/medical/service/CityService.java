@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.mobai.medical.domain.City;
 import com.mobai.medical.entity.CityEntity;
 import com.mobai.medical.mapper.CityMapper;
+import com.mobai.medical.mapper.MedicalPolicyMapper;
 import com.mobai.medical.model.CityModel;
 import com.mobai.medical.utils.Msg;
 import org.springframework.beans.BeanUtils;
@@ -19,6 +20,9 @@ public class CityService {
 
   @Autowired
   CityMapper cityMapper;
+
+  @Autowired
+  MedicalPolicyMapper medicalPolicyMapper;
 
   // 获取所有城市信息并分页，name不为空则模糊查询，当pn和size为null，则整页查询
   public PageInfo<CityModel> getCityWithPage(Integer pn, Integer size, String name) {
@@ -59,9 +63,10 @@ public class CityService {
     return Msg.fail().mess("添加成功");
   }
 
-  // 传入id，删除一个城市
+  // 传入id，删除一个城市.新增：同时删除该城市的医保政策
   public Msg deleteCityById(Integer id) {
     int i = cityMapper.deleteCityById(id);
+    medicalPolicyMapper.deleteByCity(id);
     if (i > 0) {
       return Msg.success().mess("删除成功");
     } else {
