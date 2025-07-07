@@ -15,6 +15,7 @@ import java.util.Date;
 // 响应头的配置类
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(new HandlerInterceptor() {
