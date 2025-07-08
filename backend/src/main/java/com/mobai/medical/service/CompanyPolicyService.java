@@ -36,12 +36,7 @@ public class CompanyPolicyService {
     return Msg.success().data("policyInfo", info);
   }
 
-  /**
-   * 添加医药公司政策
-   *
-   * @param param
-   * @return
-   */
+  // 添加医药公司政策
   public Msg savePolicy(CompanyPolicyParam param) {
     param.setCreateTime(new DateTime().toDate());
     param.setUpdateTime(new DateTime().toDate());
@@ -77,5 +72,12 @@ public class CompanyPolicyService {
       return Msg.success().mess("删除成功").data("numberOfDelete", i);
     }
     return Msg.fail().mess("删除失败");
+  }
+
+  public List<CompanyPolicyModel> getFirstPolicyWithPage() {
+    PageHelper.startPage(1, 4); // 设置第一页，每页4条
+    List<CompanyPolicyModel> list = companyPolicyMapper.getAllPolicy(new CompanyPolicyParam());
+    PageInfo<CompanyPolicyModel> info = new PageInfo<>(list, 4);
+    return info.getList();
   }
 }
