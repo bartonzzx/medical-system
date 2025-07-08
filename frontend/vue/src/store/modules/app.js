@@ -13,12 +13,20 @@ const mutations = {
     state.token = payload;
   },
   // 存储完整的路由
-  SET_ROUTER_MENULIST(state, payload) {
+SET_ROUTER_MENULIST(state, payload) {
     // 把固定路由和后端传来的路由合并为完整路由
     const array = constantRoutes.concat(payload);
     state.menuList = array;
-    router.options.routes = array;
-    router.addRoutes([...array]);
+
+    // router.options.routes = array;
+    // router.addRoutes([...array]);
+
+    // 确保router实例已更新，动态添加路由存在延迟
+    setTimeout(() => {
+      router.options.routes = array;
+      router.addRoutes([...array]);
+    }, 0);
+
   }
 };
 
