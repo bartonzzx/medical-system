@@ -9,12 +9,9 @@ import {
   // 查询医药公司政策管理信息api
   export function getCompanyPolicyInfo(pn, size, keyword = "") {
     return request({
-      url: "/company_policies",
+      url: "/company_policys",
       method: "GET",
       params: {
-        pn,
-        size,
-        keyword,
       },
     }).then((res) => judgeQueryResult(res));
   }
