@@ -4,7 +4,7 @@
       <div class="big-contain">
         <el-form :model="loginForm" ref="loginForm" status-icon>
           <div class="form">
-            <el-form-item prop="username" :rules="loginRules.usernameRules" class="NameNotNull">
+            <el-form :model="loginForm" ref="loginForm" status-icon @submit.native.prevent>
               <div class="UserName">
                 <img src="../assets/username.png" class="Logo" />
                 <el-input
