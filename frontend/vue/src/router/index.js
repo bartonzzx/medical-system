@@ -3,7 +3,6 @@ import VueRouter from "vue-router";
 import Login from "../views/Login.vue";
 import Layout from "../layout/index.vue";
 
-
 Vue.use(VueRouter);
 
 // 解决导航栏或者底部导航tabBar中的vue-router在3.0版本以上频繁点击菜单报错的问题。
@@ -14,20 +13,29 @@ VueRouter.prototype.push = function push(location) {
 
 export const constantRoutes = [
   // development mode
+  // {
+  //   path: "/dev",
+  //   name: "Dev",
+  //   component: () => import("../views/Home/index.vue"),
+  //   meta: { title: "dev" },
+  // },
   {
-    path: "/dev",
-    name: "Dev",
-    component: () => import("../views/Home/index.vue"),
-    meta: { title: "dev" },
+    path: "/",
+    redirect: "/layout",
   },
   {
     path: "/user/login",
     name: "Login",
     component: Login,
-    meta: { title: "登录" },
+    meta: { title: "登录" },  
   },
+  // {
+  //   path:"/",
+  //   redirect: "/home",
+  //   component: Layout,
+  // },
   {
-    path: "/",
+    path: "/layout",
     component: Layout,
     children: [
       {
@@ -96,29 +104,41 @@ const router = new VueRouter({
 
 // 这是路由守卫，判断登录状态
 router.beforeEach((to, from, next) => {
-  // 设置页面标题
-  if (to.meta && to.meta.title) {
-    document.title = to.meta.title;
-  }
-  
+  document.title = to.meta.title;
   const token = localStorage.getItem("token");
   
-  // 定义不需要登录验证的页面
-  const publicPages = ["/user/login", "/dev"];
-  const isPublicPage = publicPages.includes(to.path);
-  
-  // 如果要去登录页面但已经有token，重定向到首页
-  if (to.path === "/user/login" && token) {
-    next("/");
-  } 
-  // 如果要去需要登录的页面但没有token，重定向到登录页
-  else if (!isPublicPage && !token) {
+  if (to.path == "/user/login" && token) {
+    next("/layout");
+  } else if (to.path !== "/user/login" && !token) {
     next("/user/login");
-  } 
-  // 其他情况正常放行
-  else {
+  } else {
     next();
   }
 });
+// router.beforeEach((to, from, next) => {
+//   // 设置页面标题
+//   if (to.meta && to.meta.title) {
+//     document.title = to.meta.title;
+//   }
+  
+//   const token = localStorage.getItem("token");
+  
+//   // 定义不需要登录验证的页面
+//   const publicPages = ["/user/login", "/dev"];
+//   const isPublicPage = publicPages.includes(to.path);
+  
+//   // 如果要去登录页面但已经有token，重定向到首页
+//   if (to.path === "/user/login" && token) {
+//     next("/");
+//   } 
+//   // 如果要去需要登录的页面但没有token，重定向到登录页
+//   else if (!isPublicPage && !token) {
+//     next("/user/login");
+//   } 
+//   // 其他情况正常放行
+//   else {
+//     next();
+//   }
+// });
 
 export default router;
