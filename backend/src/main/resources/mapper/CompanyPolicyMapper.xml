@@ -36,6 +36,7 @@
                     OR cp.message LIKE #{key}
                     OR cp.company_id LIKE #{key}
                     OR cp.update_time LIKE BINARY #{key}
+                    OR company_name LIKE #{key}
                 </if>
             </trim>
         </where>
