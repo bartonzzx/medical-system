@@ -2,31 +2,20 @@
   <div class="LoginBackground">
     <div class="LoginForm">
       <div class="big-contain">
-        <el-form :model="loginForm" ref="loginForm" status-icon>
+        <el-form :model="loginForm" ref="loginForm" status-icon @submit.native.prevent>
           <div class="form">
-            <el-form :model="loginForm" ref="loginForm" status-icon @submit.native.prevent>
+            <el-form-item prop="username" :rules="loginRules.usernameRules" class="NameNotNull">
               <div class="UserName">
                 <img src="../assets/username.png" class="Logo" />
-                <el-input
-                  v-model="loginForm.username"
-                  placeholder="用户名"
-                  clearable
-                  class="InputFix"
-                />
+                <el-input v-model="loginForm.username" placeholder="用户名" clearable class="InputFix" />
               </div>
             </el-form-item>
 
             <el-form-item prop="password" :rules="loginRules.passwordRules" class="PasswordNotNull">
               <div class="Password">
                 <img src="../assets/password.png" class="Logo" />
-                <el-input
-                  v-model="loginForm.password"
-                  type="password"
-                  placeholder="密码"
-                  show-password
-                  @keydown.enter="handleLogin('loginForm')"
-                  class="InputFix"
-                />
+                <el-input v-model="loginForm.password" type="password" placeholder="密码" show-password
+                  @keydown.enter="handleLogin('loginForm')" class="InputFix" />
               </div>
             </el-form-item>
 
@@ -152,6 +141,7 @@ export default {
 input::-webkit-input-placeholder {
   color: #2abeb2;
 }
+
 input::-ms-input-placeholder {
   color: #2abeb2;
 }
