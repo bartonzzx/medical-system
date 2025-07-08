@@ -9,7 +9,7 @@ import {
   // 查询医药公司政策管理信息api
   export function getCompanyPolicyInfo(pn, size, keyword = "") {
     return request({
-      url: "/company_policies",
+      url: "/company_policys",
       method: "GET",
       params: {
         pn,
@@ -22,7 +22,7 @@ import {
   // 新增
   export function addCompanyPolicy(companyId, message, title) {
     return request({
-      url: "/company_policies",
+      url: "/company_policys",
       method: "POST",
       data: {
         companyId,
@@ -35,7 +35,7 @@ import {
   // 删除
   export function deleteCompanyPolicy(id) {
     return request({
-      url: `/company_policies/${id}`,
+      url: `/company_policys/${id}`,
       method: "DELETE",
     }).then((res) => {
       judgeDeleteResult(res);
@@ -45,7 +45,7 @@ import {
   // 修改
   export function modifyCompanyPolicyInfo(id, companyId, title, message) {
     return request({
-      url: `/company_policies/${id}`,
+      url: `/company_policys/${id}`,
       method: "PUT",
       data: {
         companyId,
