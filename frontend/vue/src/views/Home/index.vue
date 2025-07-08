@@ -1,6 +1,6 @@
 <template>
     <div>
-      <el-carousel :interval="3000" height="450px" trigger="click" arrow="hover">
+      <el-carousel :interval="3000" height="400px" trigger="click" arrow="hover">
         <el-carousel-item v-for="(url, index) in picList" :key="index">
           <el-image :src="url.image" fit="contain"></el-image>
         </el-carousel-item>
