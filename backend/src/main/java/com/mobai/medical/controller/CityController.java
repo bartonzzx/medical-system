@@ -50,7 +50,7 @@ public class CityController {
   // 根据id删除城市
   @RolesAllowed({"1"})
   @DeleteMapping({"{id}"})
-  public Msg deleteSaleById(@PathVariable("id") Integer id) {
+  public Msg deleteCityById(@PathVariable("id") Integer id) {
     Msg msg = cityService.deleteCityById(id);
     return msg;
   }

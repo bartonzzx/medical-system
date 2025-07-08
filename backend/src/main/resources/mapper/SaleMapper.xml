@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mobai.medical.mapper.SaleMapper">
+    <!-- 查询所有的销售地点信息，name不为空则模糊查询 -->
+    <select id="getAllSale" resultType="com.mobai.medical.domain.Sale">
+        SELECT * FROM sale
+        <if test="name != null and name != ''">
+            <where>
+                <bind name="saleName" value="'%' + name + '%'"/>
+                sale_name LIKE #{saleName}
+            </where>
+        </if>
+    </select>
+
+    <!-- 根据id查找一个销售地点信息 -->
+    <select id="getSaleById" resultType="com.mobai.medical.domain.Sale">
+        select *
+        from sale
+        where sale_id = #{id}
+        limit 1
+    </select>
+
+    <!--添加一个销售地点信息-->
+    <insert id="saveSale" parameterType="com.mobai.medical.entity.SaleEntity">
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="total">
+            select COUNT(*) from sale
+        </selectKey>
+        insert into sale(sale_name, sale_phone, updatetime, createtime)
+        values (#{saleName}, #{salePhone}, #{updatetime}, #{createtime})
+    </insert>
+
+    <!--根据id删除销售地点信息-->
+    <delete id="deleteSaleById">
+        delete from sale where sale_id=#{id}
+    </delete>
+
+    <!--根据id更新销售地点信息-->
+    <update id="updateSaleById">
+        update sale
+        set sale_name=#{saleName}, sale_phone=#{salePhone}, updatetime=#{updatetime}
+        where sale_id=#{saleId}
+    </update>
+
+</mapper>
