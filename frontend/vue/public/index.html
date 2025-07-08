@@ -6,6 +6,53 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <script>
+    function initDifyChatbot() {
+      const token = localStorage.getItem('token');
+      
+      if (token) {
+        // 配置聊天机器人
+        window.difyChatbotConfig = {
+          token: 'iSkKwF2XAbOh42Jg',
+          systemVariables: {
+            user_id: token,
+          },
+          userVariables: {
+            // avatar_url: 'YOU CAN DEFINE USER AVATAR URL HERE',
+            // name: 'YOU CAN DEFINE USER NAME HERE',
+          },
+        };
+        
+        // 动态加载聊天机器人脚本
+        const script = document.createElement('script');
+        script.src = 'https://udify.app/embed.min.js';
+        script.id = 'iSkKwF2XAbOh42Jg';
+        script.defer = true;
+        document.head.appendChild(script);
+      }
+    }
+    
+    // 页面加载完成后初始化
+    document.addEventListener('DOMContentLoaded', initDifyChatbot);
+    
+    // 监听localStorage变化（如果需要动态启用/禁用）
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'token') {
+        if (e.newValue && !document.getElementById('iSkKwF2XAbOh42Jg')) {
+          initDifyChatbot();
+        }
+      }
+    });
+    </script>
+    <style>
+      #dify-chatbot-bubble-button {
+        background-color: #1C64F2 !important;
+      }
+      #dify-chatbot-bubble-window {
+        width: 24rem !important;
+        height: 40rem !important;
+      }
+    </style>
   </head>
   <body>
     <noscript>
