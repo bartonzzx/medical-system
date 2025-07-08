@@ -12,6 +12,9 @@ import {
       url: "/company_policys",
       method: "GET",
       params: {
+        pn,
+        size,
+        keyword,
       },
     }).then((res) => judgeQueryResult(res));
   }
