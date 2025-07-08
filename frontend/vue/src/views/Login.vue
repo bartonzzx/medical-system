@@ -54,16 +54,40 @@ export default {
   },
   methods: {
     // 登录事件
+    // handleLogin(formName) {
+    //   this.$refs[formName].validate((valid) => {
+    //     if (valid) {
+    //       this.$store
+    //        .dispatch("app/login", this.loginForm)
+    //        .then(() => {
+    //           this.$store.dispatch("app/setMenuList");
+    //           this.$router.replace("/");
+    //         })
+    //        .catch(() => {
+    //           this.$message.error("账号或密码错误");
+    //         });
+    //     } else {
+    //       this.$notify.error({
+    //         title: "错误",
+    //         message: "请输入正确的用户名密码",
+    //       });
+
+    //       return false;
+    //     }
+    //   });
+    // },
     handleLogin(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$store
-           .dispatch("app/login", this.loginForm)
-           .then(() => {
-              this.$store.dispatch("app/setMenuList");
-              this.$router.replace("/");
+            .dispatch("app/login", this.loginForm)
+            .then(() => {
+              // 👇 先加载菜单 & 添加动态路由
+              this.$store.dispatch("app/setMenuList").then(() => {
+                this.$router.replace("/");
+              });
             })
-           .catch(() => {
+            .catch(() => {
               this.$message.error("账号或密码错误");
             });
         } else {
@@ -71,11 +95,11 @@ export default {
             title: "错误",
             message: "请输入正确的用户名密码",
           });
-
           return false;
         }
       });
-    },
+    }
+
   },
 };
 </script>

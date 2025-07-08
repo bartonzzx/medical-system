@@ -20,22 +20,17 @@ export const constantRoutes = [
   //   meta: { title: "dev" },
   // },
   {
-    path: "/",
-    redirect: "/layout",
-  },
-  {
     path: "/user/login",
     name: "Login",
     component: Login,
     meta: { title: "登录" },  
   },
-  // {
-  //   path:"/",
-  //   redirect: "/home",
-  //   component: Layout,
-  // },
   {
-    path: "/layout",
+    path:"/",
+    redirect: "/home",
+  },
+  {
+    path: "/",
     component: Layout,
     children: [
       {
@@ -108,7 +103,7 @@ router.beforeEach((to, from, next) => {
   const token = localStorage.getItem("token");
   
   if (to.path == "/user/login" && token) {
-    next("/layout");
+    next("/");
   } else if (to.path !== "/user/login" && !token) {
     next("/user/login");
   } else {
