@@ -155,3 +155,29 @@ async def updateCompany(token: str, companyId: int, companyName: str, companyPho
                 return '更新公司信息失败：' + response_json.get('message', '未知错误')
         else:
             return 'API请求失败，状态码：' + str(response.status_code)
+        
+@mcp.tool()
+async def deleteCompany(token: str, companyId: int) -> Any:
+    '''删除公司的信息。
+
+    Args:
+        token (str): 用户的token
+        companyId (int): 公司的ID, 可通过 getAllCompanyInfo 获取所有公司的ID,
+                        或者通过 getCompanyInfoByKeyword 由关键词搜索公司并获取公司ID
+    '''
+    headers = {
+        'Authorization': token,
+    }
+    url = config.API_BASE_URL + f'/api/companys/{companyId}'
+    async with httpx.AsyncClient() as client:
+        response = await client.delete(url, headers=headers)
+        if response.status_code == 200:
+            response_json = response.json()
+            if response_json['success'] == True:
+                return '公司信息删除成功。'
+            else:
+                if "成功" in response_json.get('message'):
+                    return '公司信息已不存在,无需删除。'
+                return '删除公司信息失败：' + response_json.get('message', '未知错误')
+        else:
+            return 'API请求失败，状态码：' + str(response.status_code)
