@@ -90,8 +90,8 @@ public class DoctorService {
 
   // 4. 更新医生信息
   public Msg updateDoctor(Long id, DoctorParam param) {
-    // 手机号冲突检查
-    if (accountMapper.checkPhone(param.getPhoneNumber()) > 0) {
+    // 手机号冲突检查 - 排除当前医生的账户
+    if (accountMapper.checkPhoneExcludeAccount(param.getPhoneNumber(), param.getAccountId()) > 0) {
       return Msg.fail().code(10001).mess("手机号已被使用");
     }
     // 更新账户信息
