@@ -6,7 +6,7 @@ axios.defaults.withCredentials = true;//前端请求会携带cookie
 // 解决跨域问题，允许携带cookie
 // 创建 axios 实例
 let service = axios.create({
-  baseURL: "http://localhost:8080/api", //远程服务器地址
+  baseURL: "https://backend.barton.lat:10241/api", //远程服务器地址
   timeout: 5000, // 请求超时时间
 });
 

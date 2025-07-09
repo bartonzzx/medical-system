@@ -4,6 +4,7 @@
       <div class="big-contain">
         <el-form :model="loginForm" ref="loginForm" status-icon @submit.native.prevent>
           <div class="form">
+
             <el-form-item prop="username" :rules="loginRules.usernameRules" class="NameNotNull">
               <div class="UserName">
                 <img src="../assets/username.png" class="Logo" />
@@ -19,9 +20,16 @@
               </div>
             </el-form-item>
 
+            <!-- 登录注册 -->
             <el-form-item>
               <button class="LoginBtn" @click="handleLogin('loginForm')"></button>
+              <div style="margin-top: 10px; text-align: center;">
+                <el-button type="text" font-size="small"  @click="$router.push('/user/register')">还没有账号？去注册</el-button>
+              </div>
             </el-form-item>
+
+
+
           </div>
         </el-form>
       </div>
@@ -65,6 +73,7 @@ export default {
         }
       });
     },
+
   },
 };
 </script>
