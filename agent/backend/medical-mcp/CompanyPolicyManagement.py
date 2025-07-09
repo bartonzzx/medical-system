@@ -111,3 +111,26 @@ async def updateCompanyPolicy(
                 return '更新公司政策信息失败：' + response_json.get('message', '未知错误')
         else:
             return 'API请求失败，状态码：' + str(response.status_code)
+        
+@mcp.tool()
+async def deleteCompanyPolicy(token: str, policyId: int) -> Any:
+    '''删除公司的政策信息。
+
+    Args:
+        token (str): 用户的token
+        policyId (int): 政策ID
+    '''
+    headers = {
+        'Authorization': token,
+    }
+    url = config.API_BASE_URL + f'/api/company_policys/{policyId}'
+    async with httpx.AsyncClient() as client:
+        response = await client.delete(url.format(policyId), headers=headers)
+        if response.status_code == 200:
+            response_json = response.json()
+            if response_json['success'] == True:
+                return '删除公司政策信息成功'
+            else:
+                return '删除公司政策信息失败：' + response_json.get('message', '未知错误')
+        else:
+            return 'API请求失败，状态码：' + str(response.status_code)
