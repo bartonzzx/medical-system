@@ -10,7 +10,8 @@ async def getCompantById(token: str, companyId: int) -> Any:
 
     Args:
         token (str): 用户的token
-        companyId (int): 公司的ID
+        companyId (int): 公司的ID, 可通过 getAllCompanyInfo 获取所有公司的ID, 
+                        或者通过 getCompanyInfoByKeyword 由关键词搜索公司并获取公司ID
     '''
     headers = {
         'Authorization': token
@@ -96,3 +97,31 @@ async def getCompanyInfoByKeyword(token: str, keyword: str) -> Any:
             else:
                 return 'API请求失败，状态码：' + str(response.status_code)
         return all_info if all_info else '没有找到相关公司信息。'
+
+@mcp.tool()
+async def addCompany(token: str, companyName: str, companyPhone: str) -> Any:
+    '''添加公司的信息。
+
+    Args:
+        token (str): 用户的token
+        companyName (str): 公司的名称
+        companyPhone (str): 公司的联系电话
+    '''
+    headers = {
+        'Authorization': token,
+    }
+    url = config.API_BASE_URL + '/api/companys'
+    data = {
+        'companyName': companyName,
+        'companyPhone': companyPhone
+    }
+    async with httpx.AsyncClient() as client:
+        response = await client.post(url, headers=headers, json=data)
+        if response.status_code == 200:
+            response_json = response.json()
+            if response_json['success'] == True:
+                return '公司信息添加成功。'
+            else:
+                return '添加公司信息失败：' + response_json.get('message', '未知错误')
+        else:
+            return 'API请求失败，状态码：' + str(response.status_code)
