@@ -1,3 +1,4 @@
+import saleInfoManage from "./modules/saleInfoManage";
 
 const getters = {
   token: (state) => state.app.token,
@@ -13,5 +14,6 @@ const getters = {
   doctorLevelAndType: (state) => state.doctorInfoManage.doctorLevelAndType,
   materialInfo: (state) => state.materialInfoManage.materialInfo,
   drugInfo: (state) => state.drugInfoManage.drugInfo,
+  saleAllPlaceInfo: (state) => state.saleInfoManage.saleAllPlaceInfo
 };
 export default getters;
