@@ -4,7 +4,7 @@ import config
 from main import mcp
 
 @mcp.tool()
-async def getCompantById(token: str, companyId: int) -> Any:
+async def getCompanyById(token: str, companyId: int) -> Any:
     '''根据公司ID获取公司的信息。
 
     Args:
