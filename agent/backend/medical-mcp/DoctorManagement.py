@@ -1,7 +1,6 @@
 from typing import Any
 from enum import Enum
 import httpx
-from mcp.server.fastmcp import FastMCP
 import config
 from main import mcp
 

@@ -3,6 +3,7 @@ from mcp.server.fastmcp import FastMCP
 mcp = FastMCP("medical-mcp", host='0.0.0.0', port=8081)
 
 from DoctorManagement import *
+from CompanyManagement import *
 
 # initialize 
 
