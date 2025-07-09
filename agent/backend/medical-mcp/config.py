@@ -1,1 +1,1 @@
-API_BASE_URL = "http://172.16.1.201:8082/api"
+API_BASE_URL = "http://172.16.1.201:8082"
