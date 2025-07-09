@@ -32,6 +32,9 @@ import {
       data: {
         saleName,
         salePhone,
+        lng,
+        lat,
+        address
       },
     }).then((res) => judgeAddResult(res));
   }
