@@ -323,7 +323,7 @@ export default {
         pn: this.currentPage,
         size: this.pageSize,
       });
-    },
+    },  
     // 当前页改变时触发,跳转其他页
     handleCurrentChange(event) {
       this.currentPage = event.page;
