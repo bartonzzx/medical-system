@@ -5,6 +5,7 @@ import {
   judgeModifyResult,
 } from "../../utils/app";
 import request from "../../utils/request";
+// import Qs from 'qs'
 
 // 查询销售地点信息api
 export function getSalePlaceInfo(pn, size, keyword = "") {
@@ -26,13 +27,17 @@ export function getAllSalePlaceInfo() {
 }
 
 // 新增销售地点api
-export function addSalePlace(saleName, salePhone) {
+export function addSalePlace(saleName, salePhone, lng, lat, address) {
+  console.log("here add new place " + address);
   return request({
     url: "/sales",
     method: "POST",
     data: {
       saleName,
       salePhone,
+      lng,
+      lat,
+      address,
     },
   }).then((res) => judgeAddResult(res));
 }

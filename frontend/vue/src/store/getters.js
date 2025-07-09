@@ -1,4 +1,5 @@
 const getters = {
+  // isCollapse: (state) => state.app.isCollapse,
   token: (state) => state.app.token,
   menuList: (state) => state.app.menuList,
   companyInfo: (state) => state.companyInfoManage.companyInfo,
@@ -10,6 +11,7 @@ const getters = {
   doctorInfo: (state) => state.doctorInfoManage.doctorInfo,
   doctorLevelAndType: (state) => state.doctorInfoManage.doctorLevelAndType,
   materialInfo: (state) => state.materialInfoManage.materialInfo,
+  saleAllPlaceInfo: (state) => state.saleInfoManage.saleAllPlaceInfo
 };
 
 export default getters;

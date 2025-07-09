@@ -2,7 +2,7 @@ import axios from "axios";
 import { Message } from "element-ui";
 import router from "../router/index";
 
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = false;
 // 创建 axios 实例
 let service = axios.create({
   baseURL: "http://localhost:8080/api", //远程服务器地址
