@@ -16,7 +16,7 @@ export const constantRoutes = [
   // {
   //   path: "/dev",
   //   name: "Dev",
-  //   component: () => import("../views/Home/index.vue"),
+  //   component: () => import("../views/agent/index.vue"),
   //   meta: { title: "dev" },
   // },
   {
@@ -89,6 +89,12 @@ export const constantRoutes = [
       },
     ],
   },
+  {
+    path:"/user/register",
+    component: () => import("../views/Register.vue"),
+    name: "Register",
+    meta: { title: "用户注册" },
+  },
 ];
 
 const router = new VueRouter({
@@ -101,39 +107,17 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title;
   const token = localStorage.getItem("token");
-  
   if (to.path == "/user/login" && token) {
     next("/");
   } else if (to.path !== "/user/login" && !token) {
-    next("/user/login");
+    if(to.path == "/user/register"){
+      next();
+    }else{
+      next("/user/login");
+    }
   } else {
     next();
   }
 });
-// router.beforeEach((to, from, next) => {
-//   // 设置页面标题
-//   if (to.meta && to.meta.title) {
-//     document.title = to.meta.title;
-//   }
-  
-//   const token = localStorage.getItem("token");
-  
-//   // 定义不需要登录验证的页面
-//   const publicPages = ["/user/login", "/dev"];
-//   const isPublicPage = publicPages.includes(to.path);
-  
-//   // 如果要去登录页面但已经有token，重定向到首页
-//   if (to.path === "/user/login" && token) {
-//     next("/");
-//   } 
-//   // 如果要去需要登录的页面但没有token，重定向到登录页
-//   else if (!isPublicPage && !token) {
-//     next("/user/login");
-//   } 
-//   // 其他情况正常放行
-//   else {
-//     next();
-//   }
-// });
 
 export default router;
