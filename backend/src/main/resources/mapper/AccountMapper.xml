@@ -46,6 +46,15 @@
         limit 1
     </select>
 
+    <!-- 检查手机号（排除指定账户） -->
+    <select id="checkPhoneExcludeAccount" resultType="int">
+        select count(d.id)
+        from `doctor` d
+        where d.phone = #{phone}
+        and d.account_id != #{excludeAccountId}
+        limit 1
+    </select>
+
     <!-- 更新账户信息 -->
     <!-- 更新语句 -->
     <update id="updateAccount">
