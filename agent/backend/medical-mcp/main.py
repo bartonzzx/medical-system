@@ -4,6 +4,7 @@ mcp = FastMCP("medical-mcp", host='0.0.0.0', port=8081)
 
 from DoctorManagement import *
 from CompanyManagement import *
+from CompanyPolicyManagement import *
 
 if __name__ == "__main__":
     # 初始化并运行 server
