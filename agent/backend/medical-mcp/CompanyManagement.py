@@ -125,3 +125,33 @@ async def addCompany(token: str, companyName: str, companyPhone: str) -> Any:
                 return '添加公司信息失败：' + response_json.get('message', '未知错误')
         else:
             return 'API请求失败，状态码：' + str(response.status_code)
+
+@mcp.tool()
+async def updateCompany(token: str, companyId: int, companyName: str, companyPhone: str) -> Any:
+    '''更新公司的信息。
+
+    Args:
+        token (str): 用户的token
+        companyId (int): 公司的ID, 可通过 getAllCompanyInfo 获取所有公司的ID,
+                        或者通过 getCompanyInfoByKeyword 由关键词搜索公司并获取公司ID
+        companyName (str): 公司的名称
+        companyPhone (str): 公司的联系电话
+    '''
+    headers = {
+        'Authorization': token,
+    }
+    url = config.API_BASE_URL + f'/api/companys/{companyId}'
+    data = {
+        'companyName': companyName,
+        'companyPhone': companyPhone
+    }
+    async with httpx.AsyncClient() as client:
+        response = await client.put(url, headers=headers, json=data)
+        if response.status_code == 200:
+            response_json = response.json()
+            if response_json['success'] == True:
+                return '公司信息更新成功。'
+            else:
+                return '更新公司信息失败：' + response_json.get('message', '未知错误')
+        else:
+            return 'API请求失败，状态码：' + str(response.status_code)
