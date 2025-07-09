@@ -11,6 +11,8 @@ public interface AccountMapper {
 
   int checkPhone(String phone);
 
+  int checkPhoneExcludeAccount(String phone, Long accountId);
+
   int resetPwd(Long id, String pwd);
 
   int regist(AccountEntity entity);
