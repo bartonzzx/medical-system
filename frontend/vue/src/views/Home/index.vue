@@ -11,16 +11,21 @@
     </el-header>
     <!-- 主体内容区域 -->
     <el-main>
+
       <div class="dashboard-container">
+
         <!-- 四个图标显示 -->
         <div class="number_container">
+
+
           <div class="square">
             <div icon-class="doc" class="icon" />
-            < class="title">
+            <div class="title">
               <div class="subtitle">医师人数</div>
               <div class="number">{{ doctors }}</div>
+            </div>
           </div>
-        </div>
+
         <div class="square">
           <div icon-class="bag" class="icon" />
           <div class="title">
@@ -28,6 +33,7 @@
             <div class="number">{{ drugs }}</div>
           </div>
         </div>
+
         <div class="square">
           <div icon-class="operation" class="icon" />
           <div class="title">
@@ -43,6 +49,8 @@
             <div class="number">{{ sales }}</div>
           </div>
         </div>
+
+
       </div>
 
       <div class="father_chart"></div>
@@ -70,6 +78,7 @@
 
               <el-table-column prop="date" width="100">
                 <template slot="header">
+                  <!-- bug -->
                   <a href="?#/manage/medical/policy" target="_blank">More&lt;&lt;</a>
                 </template>
               </el-table-column>
@@ -91,6 +100,8 @@
             </el-table>
           </div>
         </div>
+      </div>
+
       </div>
     </el-main>
   </el-container>
@@ -457,5 +468,18 @@ export default {
   font-size: 18px;
   font-weight: 700;
   color: #25282b;
+}
+
+.number{
+  margin-top: 12px;
+  color :#336cfb;
+  font-size :22px;
+  display : inline-block;
+}
+.variation{
+  display :inline-block;
+  margin-left : 15px;
+  vertical-align: auto;
+  color : #0deb48;
 }
 </style>

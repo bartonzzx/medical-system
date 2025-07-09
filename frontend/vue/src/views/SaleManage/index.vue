@@ -276,15 +276,18 @@ export default {
       if (this.markers.length > 0) {
         this.map.remove(this.markers);
       }
+      
       this.markers = [];
       var list = this.mapData.list;
       console.log(this.mapData);
+
       list.forEach((element) => {
         var marker = new window.AMap.Marker({
           title: element.saleName, // 自定义点标记覆盖物内容
           position: [element.lng, element.lat], // 基点位置
         });
         this.markers.push(marker);
+
         // 鼠标点击marker触发
         marker.on("click", function () {
           that.modifyForm = {
@@ -344,7 +347,7 @@ export default {
           });
           setTimeout(() => {
             this.refreshMap();
-          }, 2000);
+          }, 10000);
         } else {
           this.$message({
             message: "请检查输入的内容是否合规",
@@ -441,8 +444,11 @@ export default {
     },
   },
   mounted() {
-    this.getSalePlaceInfo(); // 首次渲染
+    this.getSalePlaceInfo();
+
     this.getAllSalePlaceInfo();
+
+
     this.loadMap();
     // 给地图3秒钟加载时间
     setTimeout(() => {
