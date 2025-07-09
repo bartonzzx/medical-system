@@ -68,4 +68,12 @@ public class MaterialService {
     }
     return Msg.fail().mess("删除失败");
   }
+
+  // 新增代码
+  public List<MaterialModel> getFirstMaterialWithPage() {
+    PageHelper.startPage(1, 4); // 设置第一页，每页4条
+    List<MaterialModel> list = materialMapper.getAllMaterial(new MaterialParam());
+    PageInfo<MaterialModel> info = new PageInfo<>(list, 4);
+    return info.getList();
+  }
 }

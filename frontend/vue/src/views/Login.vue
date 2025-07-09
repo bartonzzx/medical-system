@@ -2,7 +2,7 @@
   <div class="LoginBackground">
     <div class="LoginForm">
       <div class="big-contain">
-        <el-form :model="loginForm" ref="loginForm" status-icon>
+        <el-form :model="loginForm" ref="loginForm" status-icon @submit.native.prevent>
           <div class="form">
 
             <el-form-item prop="username" :rules="loginRules.usernameRules" class="NameNotNull">

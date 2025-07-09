@@ -18,4 +18,9 @@ public class Sale extends SuperDomain {
 
   private Date updatetime; // 修改时间
 
+  private Double Lng; // 新增经纬度
+
+  private Double lat; // 新增经纬度
+
+  private String address; //新增地址
 }
