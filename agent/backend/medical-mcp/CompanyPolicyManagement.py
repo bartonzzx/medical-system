@@ -74,3 +74,40 @@ async def addCompanyPolicy(
                 return '添加公司政策信息失败：' + response_json.get('message', '未知错误')
         else:
             return 'API请求失败，状态码：' + str(response.status_code)
+
+@mcp.tool()
+async def updateCompanyPolicy(
+    token: str, 
+    policyId: int, 
+    companyId: int, 
+    title: str, 
+    message: str
+) -> Any:
+    '''更新公司的政策信息。
+
+    Args:
+        token (str): 用户的token
+        policyId (int): 政策ID
+        companyId (int): 公司ID
+        title (str): 政策标题
+        message (str): 政策内容
+    '''
+    headers = {
+        'Authorization': token,
+    }
+    body = {
+        'companyId': companyId,
+        'title': title,
+        'message': message
+    }
+    url = config.API_BASE_URL + f'/api/company_policys/{policyId}'
+    async with httpx.AsyncClient() as client:
+        response = await client.put(url.format(policyId), headers=headers, json=body)
+        if response.status_code == 200:
+            response_json = response.json()
+            if response_json['success'] == True:
+                return '公司政策信息更新成功。'
+            else:
+                return '更新公司政策信息失败：' + response_json.get('message', '未知错误')
+        else:
+            return 'API请求失败，状态码：' + str(response.status_code)
