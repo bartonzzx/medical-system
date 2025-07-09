@@ -19,6 +19,13 @@ public class CityController {
   @Autowired
   CityService cityService;
 
+  // 处理无路径变量的请求：/api/citys
+  // 这里对下面那里的required = false不要误解，必须明确出来这个get方法(http://localhost:8080，不然就会"Method Not Allowed"
+  @GetMapping
+  public Msg getCityDefault(@RequestParam(required = false) String name) {
+    return getCityWithPage(null, null, name); // 调用核心方法
+  }
+
   @GetMapping(value = "/{pn}/{size}")
   public Msg getCityWithPage(@PathVariable(value = "pn", required = false) Integer pn,
                              @PathVariable(value = "size", required = false) Integer size,
