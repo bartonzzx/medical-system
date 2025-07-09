@@ -22,4 +22,6 @@ public interface DoctorMapper {
   int updateDoctor(DoctorEntity param);
 
   int deleteDoctorById(Long id);
+
+  Long getAccountIdByDoctorId(Long doctorId);
 }
