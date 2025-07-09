@@ -162,7 +162,7 @@ async def addDoctor(
             return 'API请求失败，状态码：' + str(response.status_code)
 
 @mcp.tool()
-async def modifyDoctor(
+async def updateDoctor(
     token: str, 
     doctorId: int, 
     name: str, 
