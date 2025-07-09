@@ -1,5 +1,4 @@
 from typing import Any
-from enum import Enum
 import httpx
 import config
 from main import mcp
