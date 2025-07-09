@@ -4,7 +4,6 @@
       <div class="big-contain">
         <el-form :model="loginForm" ref="loginForm" status-icon @submit.native.prevent>
           <div class="form">
-
             <el-form-item prop="username" :rules="loginRules.usernameRules" class="NameNotNull">
               <div class="UserName">
                 <img src="../assets/username.png" class="Logo" />
@@ -20,16 +19,9 @@
               </div>
             </el-form-item>
 
-            <!-- 登录注册 -->
             <el-form-item>
               <button class="LoginBtn" @click="handleLogin('loginForm')"></button>
-              <div style="margin-top: 10px; text-align: center;">
-                <el-button type="text" font-size="small"  @click="$router.push('/user/register')">还没有账号？去注册</el-button>
-              </div>
             </el-form-item>
-
-
-
           </div>
         </el-form>
       </div>
@@ -57,6 +49,7 @@ export default {
           this.$store
             .dispatch("app/login", this.loginForm)
             .then(() => {
+              console.log("登录成功");
               this.$store.dispatch("app/setMenuList").then(() => {
                 this.$router.replace("/");
               });
@@ -73,52 +66,59 @@ export default {
         }
       });
     },
-
   },
 };
 </script>
 
 <style scoped>
+/* 核心优化：使用Flex布局实现完美居中 */
 .LoginBackground {
-  background: url("../assets/LoginBackground.jpg") no-repeat;
+  background: url("../assets/LoginBackground.jpg") no-repeat center center;
   background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
   width: 100%;
-  height: 100%;
-  overflow: hidden;
 }
 
 .LoginForm {
-  background: url("../assets/Login.png") no-repeat;
-  background-size: 800px 509px;
-  width: 1000px;
-  height: 800px;
-  margin-left: 400px;
-  margin-top: 100px;
-  overflow: hidden;
+  background: url("../assets/Login.png") no-repeat center center;
+  background-size: contain;
+  width: 800px;
+  height: 509px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.big-contain {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  transform: translateY(-15px); /* 微调垂直位置 */
+}
+
+/* 表单元素优化 */
+.UserName, .Password {
+  border: 2px solid #2abeb2;
+  border-radius: 20px;
+  height: 70px;
+  width: 530px;
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
 }
 
 .UserName {
-  overflow: hidden;
-  border: 2px solid #2abeb2;
-  border-radius: 20px;
   margin-top: 270px;
-  margin-left: -60px;
-  height: 70px;
-  width: 530px;
-  display: flex;
-  align-items: center;
-}
-
-.Password {
-  overflow: hidden;
-  border: 2px solid #2abeb2;
-  border-radius: 20px;
-  margin-top: 20px;
-  margin-left: -60px;
-  height: 70px;
-  width: 530px;
-  display: flex;
-  align-items: center;
 }
 
 .Logo {
@@ -128,34 +128,23 @@ export default {
 }
 
 .LoginBtn {
-  overflow: hidden;
-  background: url("../assets/LoginButton.png");
-  background-size: 100%;
+  background: url("../assets/LoginButton.png") center center;
+  background-size: contain;
   width: 220px;
   height: 65px;
-  margin-left: 290px;
-  margin-top: 10px;
+  margin-top: 30px;
   border: none;
   cursor: pointer;
 }
 
-.NameNotNull {
-  margin-left: 200px;
+/* 移除不必要的定位 */
+.NameNotNull, .PasswordNotNull {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
-.PasswordNotNull {
-  margin-left: 200px;
-}
-
-input::-webkit-input-placeholder {
-  color: #2abeb2;
-}
-
-input::-ms-input-placeholder {
-  color: #2abeb2;
-}
-
-/* el-input 样式覆盖 */
+/* 输入框样式优化 */
 ::v-deep(.InputFix .el-input__inner) {
   height: 60px;
   font-size: 24px;
@@ -163,5 +152,19 @@ input::-ms-input-placeholder {
   margin-left: 20px;
   border: none;
   box-shadow: none;
+  width: calc(100% - 70px); /* 防止内容溢出 */
+}
+
+/* 响应式优化 */
+@media (max-width: 900px) {
+  .LoginForm {
+    width: 90%;
+    background-size: cover;
+  }
+  
+  .UserName, .Password {
+    width: 90%;
+    max-width: 530px;
+  }
 }
 </style>

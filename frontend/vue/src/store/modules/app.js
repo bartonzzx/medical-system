@@ -1,7 +1,7 @@
 import { login } from "../../api/Login";
 import { Message } from "element-ui";
-import router, { constantRoutes } from "../../router/index";
-import { getMenu } from "../../utils/routeParse";
+import router, { constantRoutes } from '../../router/index'
+import { getMenu } from '../../utils/routeParse'
 
 const state = {
   token: "",
@@ -13,20 +13,12 @@ const mutations = {
     state.token = payload;
   },
   // 存储完整的路由
-SET_ROUTER_MENULIST(state, payload) {
+  SET_ROUTER_MENULIST(state, payload) {
     // 把固定路由和后端传来的路由合并为完整路由
-    const array = constantRoutes.concat(payload);
-    state.menuList = array;
-
-    // router.options.routes = array;
-    // router.addRoutes([...array]);
-
-    // 确保router实例已更新，动态添加路由存在延迟
-    setTimeout(() => {
-      router.options.routes = array;
-      router.addRoutes([...array]);
-    }, 0);
-
+    const array = constantRoutes.concat(payload)
+    state.menuList = array
+    router.options.routes = array
+    router.addRoutes([...array])
   }
 };
 
@@ -35,17 +27,14 @@ const actions = {
   login({ commit }, loginInfo) {
     const username = loginInfo.username.trim();
     return new Promise((resolve, reject) => {
+      console.log
       login(username, loginInfo.password).then((res) => {
-        if (res.data.code === 20000) {
+        if (res.data.code == "20000") {
           Message({
             type: "success",
             message: "登录成功",
           });
-          localStorage.setItem(
-            "userInfo",
-            JSON.stringify(res.data.data.userInfo)
-          );
-
+          localStorage.setItem('userInfo', JSON.stringify(res.data.data.userInfo))
           localStorage.setItem("token", res.data.data.token);
           commit("SET_TOKEN", res.data.data.token);
           resolve();
@@ -53,16 +42,17 @@ const actions = {
           reject();
         }
       });
-    });
+    })
   },
+
   // 获取后端传来的路由列表
   setMenuList({ commit }) {
     return new Promise((resolve) => {
-      getMenu().then((res) => {
-        commit("SET_ROUTER_MENULIST", res);
-        resolve(res);
-      });
-    });
+      getMenu().then(res => {
+        commit('SET_ROUTER_MENULIST', res)
+        resolve(res)
+      })
+    })
   }
 };
 
@@ -70,5 +60,5 @@ export default {
   namespaced: true,
   state,
   mutations,
-  actions,
+  actions
 };

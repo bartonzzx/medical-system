@@ -1,7 +1,9 @@
-import request from "../utils/request";
+import request from "../utils/request"
+
 import Qs from "qs";
 
 export function login(username, password) {
+
   return request({
     url: "/login",
     method: "POST",
@@ -10,11 +12,12 @@ export function login(username, password) {
 }
 
 export function getMenuList(roleName) {
+
   return request({
     url: "/permissions",
     method: "GET",
     params: {
-      roleName,
-    },
+      roleName
+    }
   });
 }

@@ -8,12 +8,12 @@ function tree(data, arr) {
       name: datas.name,
       component:
         datas.component == "Layout"
-         ? Layout
+          ? Layout
           : () => import(`../views/${datas.component}/index.vue`),
       meta: {
         title: datas.meta.title,
       },
-      //子路由
+      // 子路由
       children: [],
     });
     if (datas.children) {
@@ -26,16 +26,14 @@ function tree(data, arr) {
 
 export function getMenu() {
   return new Promise((resolve, reject) => {
-    getMenuList(JSON.parse(localStorage.getItem("userInfo")).type).then(
-      (res) => {
-        if (res.data.code === 20000) {
-          resolve(tree(res.data.data.permissions, []));
-        } else {
-          alert("获取菜单列表失败！");
-          reject();
-        }
+    getMenuList(JSON.parse(localStorage.getItem('userInfo')).utype).then((res) => {
+      if (res.data.code == 20000) {
+        // 调用 tree 函数来解析后端返回来的树
+        resolve(tree(res.data.data.permissions, []))
+      } else {
+        alert('获取菜单列表失败！')
+        reject()
       }
-    );
+    });
   })
 }
-

@@ -1,205 +1,132 @@
+<!-- 医药公司政策管理 -->
 <template>
-    <!-- 医药公司政策管理 -->
-    <el-container>
-      <!-- 头部区域 -->
-      <el-header height="76px">
-        <h2 v-if="hasRole">医药公司政策管理</h2>
-        <h2 v-else>医药公司政策查询</h2>
-        <!-- 面包屑导航区域 -->
-        <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item v-if="hasRole">医药公司政策管理</el-breadcrumb-item>
-          <el-breadcrumb-item v-else>医药公司政策查询</el-breadcrumb-item>
-        </el-breadcrumb>
-      </el-header>
-      <!-- 主体内容区域 -->
-      <el-main>
-        <!-- header -->
-        <div class="main-title">
-          <h3>医药公司政策列表</h3>
-          <button
-            class="new-add"
-            @click="addFormVisible = true"
-            v-if="hasRole"
-          ></button>
-        </div>
-        <!-- 搜索 -->
-        <el-row :gutter="20">
-          <el-col :span="23" class="search-col">
-            <el-input
-              placeholder="查询（输入要查询的关键字）"
-              clearable
-              size="small"
-              v-model="keyword"
-              @input="handelQuery"
-            />
-          </el-col>
-        </el-row>
-        <!-- 表格 -->
-        <el-table
-          :data="tableData.list"
-          stripe
-          :default-sort="{ prop: 'date', order: 'descending' }"
-          max-height="375"
-          highlight-current-row
-        >
-          <el-table-column type="expand">
-            <template slot-scope="scope">
-              <el-form label-position="left" inline class="demo-table-expand">
-                <el-form-item label="医药公司政策内容">
-                  <span>{{ scope.row.message }}</span>
-                </el-form-item>
-              </el-form>
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="drugCompanyModel.companyName"
-            label="公司名称"
-          />
-          <el-table-column prop="id" label="政策编号" sortable />
-          <el-table-column prop="title" label="政策名称" />
-          <el-table-column prop="updateTime" label="发布时间" sortable />
-          <el-table-column label="操作" v-if="hasRole">
-            <template slot-scope="scope">
-              <button
-                class="table-btn-delete"
-                @click="handleDeleteCompanyPolicy(scope.row.id, scope.row.title)"
-              ></button>
-              <button
-                class="table-btn-update"
-                @click="
-                  handleModifyFormVisible(
-                    scope.row.id,
-                    scope.row.title,
-                    scope.row.message,
-                    scope.row.drugCompanyModel.companyId
-                  )
-                "
-              ></button>
-            </template>
-          </el-table-column>
-        </el-table>
-        <!-- 分页 -->
-        <div class="pagination">
-          <pagination
-            :current-page.sync="currentPage"
-            :layout="'total,prev,pager,next,jumper'"
-            :total="tableData.total"
-            :page-size.sync="pageSize"
-            @current-change="handleCurrentChange($event)"
-            @update:page="currentPage = $event"
-          ></pagination>
-        </div>
-        <!-- 点击新增后的弹窗 -->
-        <el-dialog
-          title="新增医药公司政策"
-          :visible.sync="addFormVisible"
-          :modal-append-to-body="false"
-          @close="handleAddClose"
-        >
-          <el-form
-            :model="addForm"
-            hide-required-asterisk
-            ref="addForm"
-            label-width="110px"
-          >
-            <el-form-item label="政策名称" prop="title" :rules="rules.nameRules">
-              <el-input
-                v-model.trim="addForm.title"
-                autocomplete="off"
-                required
-              />
-            </el-form-item>
-            <el-form-item label="政策内容" prop="message" :rules="rules.infoRules">
-              <el-input
-                v-model.trim="addForm.message"
-                autocomplete="off"
-                required
-                autosize
-                type="textarea"
-              />
-            </el-form-item>
-            <el-form-item label="生效公司" prop="companyId" :rules="rules.requiredRules">
-              <el-select
-                v-model="addForm.companyId"
-                placeholder="请选择生效公司"
-              >
-                <el-option
-                  v-for="company in companyInfo.list"
-                  :key="company.companyId"
-                  :label="company.companyName"
-                  :value="company.companyId"
-                />
-              </el-select>
-            </el-form-item>
-          </el-form>
-          <div slot="footer" class="dialog-footer">
-            <el-button @click="addFormVisible = false">取消</el-button>
-            <el-button
-              type="primary"
-              @click="handleAddCompanyPolicy('addForm')"
-            >确定</el-button>
-          </div>
-        </el-dialog>
-        <!-- 点击修改后的弹窗 -->
-        <el-dialog
-          title="修改医药公司政策信息"
-          :visible.sync="modifyFormVisible"
-          :modal-append-to-body="false"
-          @close="handleModifyClose"
-        >
-          <el-form
-            :model="modifyForm"
-            hide-required-asterisk
-            ref="modifyForm"
-            label-width="110px"
-          >
-            <el-form-item label="政策名称" prop="title" :rules="rules.nameRules">
-              <el-input
-                v-model.trim="modifyForm.title"
-                autocomplete="off"
-                required
-              />
-            </el-form-item>
-            <el-form-item label="政策内容" prop="message" :rules="rules.infoRules">
-              <el-input
-                v-model.trim="modifyForm.message"
-                autocomplete="off"
-                required
-                autosize
-                type="textarea"
-              />
-            </el-form-item>
-            <el-form-item label="生效公司" prop="companyId" :rules="rules.requiredRules">
-              <el-select
-                v-model="modifyForm.companyId"
-                placeholder="请选择生效公司"
-              >
-                <el-option
-                  v-for="company in companyInfo.list"
-                  :key="company.companyId"
-                  :label="company.companyName"
-                  :value="company.companyId"
-                />
-              </el-select>
-            </el-form-item>
-          </el-form>
-          <div slot="footer" class="dialog-footer">
-            <el-button @click="modifyFormVisible = false">取消</el-button>
-            <el-button
-              type="primary"
-              @click="handleModifyMedicalPolicy('modifyForm')"
-            >确定</el-button>
-          </div>
-        </el-dialog>
-      </el-main>
-    </el-container>
-  </template>
+  <el-container>
+    <!-- 头部区域 -->
+    <el-header height="76px">
+      <h2 v-if="hasRole">医药公司政策管理</h2>
+      <h2 v-else>医药公司政策查询</h2>
+      <!-- 面包屑导航区域 -->
+      <el-breadcrumb separator="">
+        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="hasRole">医药公司政策管理</el-breadcrumb-item>
+        <el-breadcrumb-item v-else>医药公司政策查询</el-breadcrumb-item>
+      </el-breadcrumb>
+    </el-header>
+
+    <!-- 主体内容区域 -->
+    <el-main>
+      <!-- header -->
+      <div class="main-title">
+        <h3>医药公司政策列表</h3>
+        <button class="new-add" @click="addFormVisible = true" v-if="hasRole"></button>
+      </div>
+
+      <!-- 搜索 -->
+      <el-row :gutter="20">
+        <el-col :span="23" class="search-col">
+          <el-input placeholder="查询(输入要查询的关键字)" clearable size="small" v-model="keyword"
+            @input="handelQuery"></el-input>
+        </el-col>
+      </el-row>
+
+      <!-- 表格 -->
+      <el-table :data="tableData.list" stripe :default-sort="{ prop: 'date', order: 'descending' }" max-height="375"
+        highlight-current-row>
+        <el-table-column type="expand">
+          <template slot-scope="scope">
+            <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="医药公司政策内容">
+                <span>{{ scope.row.message }}</span>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
+
+        <el-table-column prop="drugCompanyModel.companyName" label="公司名称" />
+        <el-table-column prop="id" label="政策编号" sortable />
+        <el-table-column prop="title" label="政策名称" />
+        <el-table-column prop="updateTime" label="发布时间" sortable />
+
+        <el-table-column label="操作" v-if="hasRole">
+          <template slot-scope="scope">
+            <button class="table-btn-delete" @click="handleDeleteCompanyPolicy(scope.row.id, scope.row.title)"></button>
+            <button class="table-btn-update" @click="
+              handleModifyFormVisible(
+                scope.row.id,
+                scope.row.title,
+                scope.row.message,
+                scope.row.drugCompanyModel.companyId
+              )
+              "></button>
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <!-- 分页 -->
+      <div class="pagination">
+        <pagination :current-page.sync="currentPage" :layout="'total,prev,pager,next,jumper'" :total="tableData.total"
+          :page-size.sync="pageSize" @currentChange="handleCurrentChange($event)" @update:page="currentPage = $event">
+        </pagination>
+      </div>
+    </el-main>
+
+    <!-- 点击新增后的弹窗 -->
+    <el-dialog title="新增医药公司政策" :visible.sync="addFormVisible" :modal-append-to-body="false" @close="handleAddClose">
+      <el-form :model="addForm" hide-required-asterisk ref="addForm" label-width="110px">
+        <el-form-item label="政策名称" prop="title" :rules="rules.nameRules">
+          <el-input v-model.trim="addForm.title" autocomplete="off" required></el-input>
+        </el-form-item>
+
+        <el-form-item label="政策内容" prop="message" :rules="rules.infoRules">
+          <el-input v-model.trim="addForm.message" autocomplete="off" required autosize type="textarea"></el-input>
+        </el-form-item>
+
+        <el-form-item label="生效公司" prop="companyId" :rules="rules.requiredRules">
+          <el-select v-model="addForm.companyId" placeholder="请选择生效公司">
+            <el-option v-for="company in companyInfo.list" :key="company.companyId" :label="company.companyName"
+              :value="company.companyId" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="addFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="handleAddCompanyPolicy('addForm')">确定</el-button>
+      </div>
+    </el-dialog>
+
+    <!-- 点击修改后的弹窗 -->
+    <el-dialog title="修改医药公司政策信息" :visible.sync="modifyFormVisible" :modal-append-to-body="false"
+      @close="handleModifyClose">
+      <el-form :model="modifyForm" hide-required-asterisk ref="modifyForm" label-width="110px">
+        <el-form-item label="政策名称" prop="title" :rules="rules.nameRules">
+          <el-input v-model.trim="modifyForm.title" autocomplete="off" required />
+        </el-form-item>
+
+        <el-form-item label="政策内容" prop="message" :rules="rules.infoRules">
+          <el-input v-model.trim="modifyForm.message" autocomplete="off" required autosize type="textarea" />
+        </el-form-item>
+
+        <el-form-item label="生效公司" prop="companyId" :rules="rules.requiredRules">
+          <el-select v-model="modifyForm.companyId" placeholder="请选择生效公司">
+            <el-option v-for="company in companyInfo.list" :key="company.companyId" :label="company.companyName"
+              :value="company.companyId" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="modifyFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="handleModifyMedicalPolicy('modifyForm')">确 定</el-button>
+      </div>
+    </el-dialog>
+  </el-container>
+</template>
 
 <script>
-import Pagination from "../../components/Pagination.vue";
+import Pagination from "../../components/Pagination";
 import { mapGetters } from "vuex";
-import rules from "../../utils/validator.js"; // 引入封装好的表单验证规则
+import rules from "../../utils/validator";
 import dayjs from "dayjs";
 
 export default {
@@ -236,7 +163,8 @@ export default {
         size: this.pageSize,
       });
     },
-    // 当前页改变时触发,跳转其他页
+
+    // 当前页改变时触发，跳转其他页
     handleCurrentChange(event) {
       this.currentPage = event.page;
       if (this.keyword.length) {
@@ -245,6 +173,7 @@ export default {
         this.getCompanyPolicyInfo();
       }
     },
+
     // 通过关键字查询数据
     handelQuery(keyword) {
       this.$store.dispatch("companyPolicyInfoManage/getCompanyPolicyInfo", {
@@ -253,6 +182,7 @@ export default {
         keyword,
       });
     },
+
     // 新增公司
     handleAddCompanyPolicy(formName) {
       this.$refs[formName].validate((valid) => {
@@ -273,30 +203,29 @@ export default {
         }
       });
     },
+
     // 删除
     handleDeleteCompanyPolicy(id, title) {
-      this.$confirm(`确定要删除 "${title}" 的相关信息吗？`, "提示", {
+      this.$confirm(`确定要删除"${title}"的相关信息吗?`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       })
-       .then(() => {
-          this.$store.dispatch(
-            "companyPolicyInfoManage/deleteCompanyPolicy",
-            {
-              id,
-              pn: this.currentPage,
-              size: this.pageSize,
-            }
-          );
+        .then(() => {
+          this.$store.dispatch("companyPolicyInfoManage/deleteCompanyPolicy", {
+            id,
+            pn: this.currentPage,
+            size: this.pageSize,
+          });
         })
-       .catch(() => {
+        .catch(() => {
           this.$message({
             type: "info",
             message: "已取消删除",
           });
         });
     },
+
     // 控制修改表单弹出
     handleModifyFormVisible(id, title, message, companyId) {
       this.modifyForm = {
@@ -307,6 +236,7 @@ export default {
       };
       this.modifyFormVisible = true;
     },
+
     // 修改
     handleModifyMedicalPolicy(formName) {
       this.$refs[formName].validate((valid) => {
@@ -333,24 +263,29 @@ export default {
         }
       });
     },
+
     // 每次关闭表单的时候重置表单
     handleAddClose() {
       this.addForm = {};
       this.$refs.addForm.resetFields();
     },
+
     handleModifyClose() {
       this.$refs.modifyForm.clearValidate();
     },
   },
+
   mounted() {
     this.getCompanyPolicyInfo(); // 首次渲染
     this.$store.dispatch("companyInfoManage/getAllCompanyInfo");
   },
+
   computed: {
-   ...mapGetters({
+    ...mapGetters({
       tableData: "companyPolicyInfo",
       companyInfo: "companyInfo",
     }), // 后端返回的数据
+
     keyword: {
       get() {
         return this.keywordDefault;

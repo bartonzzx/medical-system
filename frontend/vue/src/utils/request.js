@@ -2,21 +2,19 @@ import axios from "axios";
 import { Message } from "element-ui";
 import router from "../router/index";
 
-axios.defaults.withCredentials = true;//前端请求会携带cookie
-// 解决跨域问题，允许携带cookie
+axios.defaults.withCredentials = true;
 // 创建 axios 实例
 let service = axios.create({
-  baseURL: "http://localhost:8080/api", 
-  // baseURL: "https://backend.barton.lat:10241/api" ,
-  timeout: 5000, // 请求超时时间
+  baseURL: "http://localhost:8080/api", //远程服务器地址
+  timeout: 5000, //请求超时时间
 });
 
-// request 拦截器
+// request拦截器
 service.interceptors.request.use(
   (config) => {
     if (localStorage.getItem("token")) {
       config.headers = {
-        Authorization: localStorage.getItem("token"), // 携带权限参数
+        Authorization: localStorage.getItem("token"), //携带权限参数
       };
     }
     return config;
@@ -26,19 +24,19 @@ service.interceptors.request.use(
   }
 );
 
-// response 拦截器
+//response拦截器
 service.interceptors.response.use(
   (response) => {
     const res = response.data;
     // code为10006代表token失效，需要重新登录
-    if (res.code === 10006) {
+    if (res.code == 10006) {
       Message({
         type: "error",
         message: "登录已失效，请重新登录",
       });
       setTimeout(() => {
         localStorage.removeItem("token");
-        localStorage.removeItem("userInfo");
+        localStorage.removeItem("userInfo")
         router.push("/user/login");
       }, 500);
     }

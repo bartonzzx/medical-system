@@ -1,13 +1,7 @@
 <template>
   <div>
-    <el-menu
-      class="el-menu-vertical-demo"
-      background-color="#2abeb2"
-      text-color="#000000"
-      active-text-color="#ffffff"
-      router
-      :default-active="$route.path"
-    >
+    <el-menu class="el-menu-vertical-demo" background-color="#2abeb2" text-color="#000000" active-text-color="#ffffff"
+      router :default-active="$route.path">
       <div class="MenuBackground">
         <fragment v-for="(item, index) in submenuList" :key="index">
           <!-- 一级菜单（没有任何子级菜单） -->
@@ -34,11 +28,7 @@
                   <i :class="i.icon"></i>
                   <span>{{ i.title }}</span>
                 </template>
-                <el-menu-item
-                  :index="j.path"
-                  v-for="(j, index) in i.list"
-                  :key="index"
-                >
+                <el-menu-item :index="j.path" v-for="(j, index) in i.list" :key="index">
                   <i :class="j.icon"></i>
                   <span>{{ j.title }}</span>
                 </el-menu-item>
@@ -51,30 +41,30 @@
   </div>
 </template>
 <script>
-    export default {
-      name: "PageSider",
-      data() {
-        return {
-          submenuList: [],
-        };
-      },
-      methods: {
-        handleMenuListData(data, arr) {
-          data.forEach((datas) => {
-            arr.push({
-              path: datas.path,
-              title: datas.meta.title,
-              icon: "el-icon-menu",
-            });
-          });
-          return arr;
-        },
-      },
-      mounted() {
-        let array = this.$store.getters.menuList.slice(2)[0].children;
-        this.submenuList = this.handleMenuListData(array, []);
-      },
+export default {
+  name: "PageSider",
+  data() {
+    return {
+      submenuList: [],
     };
+  },
+  methods: {
+    handleMenuListData(data, arr) {
+      data.forEach((datas) => {
+        arr.push({
+          path: datas.path,
+          title: datas.meta.title,
+          icon: "el-icon-menu",
+        });
+      });
+      return arr;
+    },
+  },
+  mounted() {
+    let array = this.$store.getters.menuList.slice(2)[0].children;
+    this.submenuList = this.handleMenuListData(array, []);
+  },
+};
 </script>
 
 <style lang="less" scoped>
@@ -82,6 +72,7 @@
   width: 200px;
   min-height: 400px;
 }
+
 .medicine_system_title {
   width: 100%;
   color: #fff;
@@ -92,10 +83,12 @@
   background-color: #233646;
   cursor: default;
 }
+
 .el-menu {
   height: 100%;
   border-right: 0;
 }
+
 .MenuBackground {
   background: url("../../../assets/MenuBackGround.jpg");
   background-size: 120%;

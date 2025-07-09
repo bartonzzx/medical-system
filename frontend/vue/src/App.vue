@@ -7,16 +7,11 @@
 <script>
 export default {
   name: "app",
-  mounted(){
-  if(localStorage.getItem('userInfo')){
-    this.$store.dispatch('app/setMenuList').then(() => {
-      // 检查当前路由是否有效，路由重定向逻辑
-      if(this.$route.name === null) {
-        this.$router.replace('/') // 跳转到默认页面
-      }
-    });
-  }
-},
-  
+  mounted() {
+    //只要刷新页面，就会重新加载路由树，保证了路由不会丢失数据
+    if (localStorage.getItem("userInfo")) {
+      this.$store.dispatch("app/setMenuList");
+    }
+  },
 };
 </script>

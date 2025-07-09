@@ -36,7 +36,6 @@
         </el-table-column>
         <el-table-column prop="companyPhone" label="公司电话">
         </el-table-column>
-
         <el-table-column prop="companyOperation" label="操作" v-if="hasRole">
           <!-- 通过slot-scope拿到对应行的数据 -->
           <template slot-scope="scope">
@@ -46,7 +45,6 @@
               @click="handleModifyFormVisible(scope.row.companyId, scope.row.companyName, scope.row.companyPhone)"></button>
           </template>
         </el-table-column>
-
       </el-table>
       <!-- 分页 -->
       <div class="pagination">

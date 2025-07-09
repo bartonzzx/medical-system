@@ -5,11 +5,12 @@ import {
   judgeModifyResult,
 } from "../../utils/app";
 import request from "../../utils/request";
+// import Qs from 'qs'
 
-// 查询销售地点信息api
-export function getSalePlaceInfo(pn, size, keyword = "") {
+// 查询公司信息api
+export function getCompanyInfo(pn, size, keyword = "") {
   return request({
-    url: `/sales/${pn}/${size}`,
+    url: `/companys/${pn}/${size}`,
     method: "GET",
     params: {
       name: keyword,
@@ -17,44 +18,44 @@ export function getSalePlaceInfo(pn, size, keyword = "") {
   }).then((res) => judgeQueryResult(res));
 }
 
-// 查询所有销售地点信息
-export function getAllSalePlaceInfo() {
+// 查询所有公司信息api
+export function getAllCompanyInfo() {
   return request({
-    url: "/sales",
+    url: "/companys",
     method: "GET",
   });
 }
 
-// 新增销售地点api
-export function addSalePlace(saleName, salePhone) {
+// 新增公司api
+export function addCompany(companyName, companyPhone) {
   return request({
-    url: "/sales",
+    url: "/companys",
     method: "POST",
     data: {
-      saleName,
-      salePhone,
+      companyName,
+      companyPhone,
     },
   }).then((res) => judgeAddResult(res));
 }
 
-// 删除销售地点api
-export function deleteSalePlace(saleId) {
+// 删除公司api
+export function deleteCompany(companyId) {
   return request({
-    url: `/sales/${saleId}`,
+    url: `/companys/${companyId}`,
     method: "DELETE",
   }).then((res) => {
     judgeDeleteResult(res);
   });
 }
 
-// 修改销售地点api
-export function modifySalePlaceInfo(saleId, saleName, salePhone) {
+// 修改公司api
+export function modifyCompanyInfo(companyId, companyName, companyPhone) {
   return request({
-    url: `/sales/${saleId}`,
+    url: `/companys/${companyId}`,
     method: "PUT",
     data: {
-      saleName,
-      salePhone,
+      companyName,
+      companyPhone,
     },
   }).then((res) => {
     judgeModifyResult(res);
