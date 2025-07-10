@@ -1,23 +1,23 @@
 services:
   medical-system-db:
-    image: bartonzzx/medical-system-db
-    container_name: medical-system-db # 可选：为容器指定一个名称
+    image: bartonzzx/medical-system-db:1.1
+    container_name: ts-medical-system-db # 可选：为容器指定一个名称
     network_mode: host
     environment:
       - MYSQL_ROOT_PASSWORD=qwe!@#
     restart: unless-stopped # 除非手动停止，否则容器会在退出时自动重启
-    healthcheck: # 健康检查，确保数据库服务已准备好接受连接
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$${MYSQL_ROOT_PASSWORD}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
+      #healthcheck: # 健康检查，确保数据库服务已准备好接受连接
+      #test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$${MYSQL_ROOT_PASSWORD}"]
+      #interval: 10s
+      #timeout: 5s
+      #retries: 5
+      #start_period: 30s
   medical-system:
-    image: bartonzzx/medical-system
-    container_name: medical-system # 可选：为容器指定一个名称
+    image: bartonzzx/medical-system:1.0
+    container_name: ts-medical-system # 可选：为容器指定一个名称
     network_mode: host
     restart: unless-stopped # 除非手动停止，否则容器会在退出时自动重启
-    depends_on:
-      medical-system-db:
-        condition: service_healthy # 确保数据库服务健康后再启动应用服务
+      #depends_on:
+      #medical-system-db:
+        #condition: service_healthy # 确保数据库服务健康后再启动应用服务
     command: /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf -n
