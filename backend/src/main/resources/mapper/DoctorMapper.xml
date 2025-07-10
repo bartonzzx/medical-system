@@ -76,4 +76,11 @@
         WHERE d.id = #{id}
           AND d.account_id = a.id
     </delete>
+
+    <!-- 根据医师ID获取对应的账户ID -->
+    <select id="getAccountIdByDoctorId" resultType="Long">
+        SELECT account_id
+        FROM doctor
+        WHERE id = #{doctorId}
+    </select>
 </mapper>

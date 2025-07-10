@@ -129,9 +129,15 @@ public class DoctorService {
 
   // 6. 密码重置
   public Msg resetPwd(Long id) {
+    // 首先根据医师ID获取对应的账户ID
+    Long accountId = doctorMapper.getAccountIdByDoctorId(id);
+    if (accountId == null) {
+      return Msg.fail().mess("医师不存在");
+    }
+    
     String newPwd = new BCryptPasswordEncoder().encode("123456"); // 默认密码加密
-    int i = accountMapper.resetPwd(id, newPwd);
-    System.out.println("这里是修改医师密码，修改返回值i=" + i);
+    int i = accountMapper.resetPwd(accountId, newPwd);
+    System.out.println("这里是修改医师密码，医师ID=" + id + "，账户ID=" + accountId + "，修改返回值i=" + i);
     return i > 0 ?
             Msg.success().mess("重置成功") :
             Msg.fail().mess("重置失败");
