@@ -16,5 +16,5 @@ mysql -u root -p
 use medical;
 ```
 ```
-source /root/medical_newFunction.sql
+source /root/medical_newFunction.sql;
 ```
