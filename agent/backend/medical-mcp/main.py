@@ -8,6 +8,8 @@ from CompanyPolicyManagement import *
 from CityManagement import *
 from MedicalPolicyManagement import *
 from SalePlaceManagement import *
+from DrugManagement import *
+from MaterialManagement import *
 
 if __name__ == "__main__":
     # 初始化并运行 server
