@@ -27,11 +27,13 @@ public class CityService {
   // 获取所有城市信息并分页，name不为空则模糊查询，当pn和size为null，则整页查询
   public PageInfo<CityModel> getCityWithPage(Integer pn, Integer size, String name) {
     if (pn == null && size == null) {
+      // System.out.println("here");
       pn = 1;
       size = 0;
       // size=0 表示不进行实际数据分页，仅返回元信息（如总记录数）。
     }
     PageHelper.startPage(pn, size);
+    // System.out.println(size);
     List<CityModel> list = cityMapper.getAllCity(name);
     PageInfo<CityModel> info = new PageInfo<>(list, 5);
     return info;

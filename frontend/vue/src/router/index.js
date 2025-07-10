@@ -1,6 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import LR from "../views/LR.vue"
 import Login from "../views/Login.vue";
+import Register from "../views/Register.vue";
+
 
 Vue.use(VueRouter);
 
@@ -12,10 +15,24 @@ VueRouter.prototype.push = function push(location) {
 
 export const constantRoutes = [
   {
-    path: "/user/login",
-    name: "Login",
-    component: Login,
-    meta: { title: "登录" },
+    path: "/user/",
+    name: "LR",
+    component: LR,
+    meta: { title: "登录&注册" },
+    children: [
+      {
+        path: "login",
+        name: "Login",
+        component: Login,
+        meta: { title: "登录" },
+      },
+      {
+        path: "register",
+        name: "Register",
+        component: Register,
+        meta: { title: "注册" },
+      },
+    ],
   },
   {
     path: "/",
@@ -29,6 +46,8 @@ const router = new VueRouter({
   routes: constantRoutes
 });
 
+const whiteList = ['/user/login', '/user/register'];
+
 // 判断登录状态
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title;
@@ -36,7 +55,12 @@ router.beforeEach((to, from, next) => {
   if (to.path == "/user/login" && token) {
     next("/");
   } else if (to.path !== "/user/login" && !token) {
-    next("/user/login");
+    if (whiteList.includes(to.path)) {
+      next();
+    }
+    else {
+      next("/user/login");
+    }
   } else {
     next();
   }

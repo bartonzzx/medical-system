@@ -22,7 +22,7 @@ async def getCompanyById(token: str, companyId: int) -> Any:
             response_json = response.json()
             if response_json['success'] == True:
                 item = response_json['data']['company']
-                return f"公司ID:{item['companyId']},公司名称:{item['companyName']},联系电话:{item['companyPhone']},信息创建时间:{item['createtime']},信息修改时间:{item['updatetime']}\n"
+                return f"公司ID:{item['companyId']},公司名称:{item['companyName']},联系电话:{item['companyPhone']},信息创建时间:{item['createtime']},信息修改时间:{item.get('updatetime', '自创建后暂未更新')}\n"
             else:
                 return '获取公司信息失败：' + response_json.get('message', '未知错误')
         else:
@@ -53,7 +53,7 @@ async def getAllCompanyInfo(token: str) -> Any:
                     isLastPage = response_json['data']['pageInfo']['isLastPage']
                     pn += 1
                     for item in response_json['data']['pageInfo']['list']:
-                        item_company_info =  f"公司ID:{item['companyId']},公司名称:{item['companyName']},联系电话:{item['companyPhone']},信息创建时间:{item['createtime']},信息修改时间:{item['updatetime']}\n"
+                        item_company_info =  f"公司ID:{item['companyId']},公司名称:{item['companyName']},联系电话:{item['companyPhone']},信息创建时间:{item['createtime']},信息修改时间:{item.get('updatetime', '自创建后暂未更新')}\n"
                         all_info += item_company_info
                 else:
                     return '获取公司信息失败：' + response_json.get('message', '未知错误')
@@ -89,7 +89,7 @@ async def getCompanyInfoByKeyword(token: str, keyword: str) -> Any:
                     isLastPage = response_json['data']['pageInfo']['isLastPage']
                     pn += 1
                     for item in response_json['data']['pageInfo']['list']:
-                        item_company_info = f"公司ID:{item['companyId']},公司名称:{item['companyName']},联系电话:{item['companyPhone']},信息创建时间:{item['createtime']},信息修改时间:{item['updatetime']}\n"
+                        item_company_info = f"公司ID:{item['companyId']},公司名称:{item['companyName']},联系电话:{item['companyPhone']},信息创建时间:{item['createtime']},信息修改时间:{item.get('updatetime', '自创建后暂未更新')}\n"
                         all_info += item_company_info
                 else:
                     return '获取公司信息失败：' + response_json.get('message', '未知错误')

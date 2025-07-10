@@ -80,7 +80,12 @@ public class CompanyService {
     return Msg.fail().mess("修改失败");
   }
 
-  // 根据id删除医药公司信息
+  /**
+   * 根据id删除医药公司信息
+   *
+   * @param id
+   * @return
+   */
   public Msg deleteCompanyById(Integer id) {
     int i = companyMapper.deleteCompanyById(id);
     companyPolicyMapper.deletePolicyByCompany(id);
@@ -90,5 +95,4 @@ public class CompanyService {
       return Msg.fail().mess("删除成功");
     }
   }
-
 }
