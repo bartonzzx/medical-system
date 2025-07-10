@@ -5,7 +5,7 @@ import router from "../router/index";
 axios.defaults.withCredentials = false;
 // 创建 axios 实例
 let service = axios.create({
-  baseURL: "http://localhost:8080/api", //远程服务器地址
+  baseURL: "https://backend.barton.lat:10241/api", //远程服务器地址
   timeout: 5000, //请求超时时间
 });
 
