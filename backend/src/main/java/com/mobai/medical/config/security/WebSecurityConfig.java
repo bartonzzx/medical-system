@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -58,20 +59,40 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+    // 配置表单登录
     http.formLogin()
             .loginProcessingUrl("/api/login")
             .successHandler(authenticationSuccessHandler)
             .failureHandler(authenticationFailHandler)
             .and()
-            .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
-            .accessDeniedHandler(accessDeniedHandler)
-            .and().authorizeRequests()
-            .antMatchers("/api/login", "/login", "/v2/api-docs", "/swagger-resources/configuration/ui",
-                    "/swagger-resources", "/swagger-resources/configuration/security",
-                    "/swagger-ui.html", "/webjars/**", "api/login", "//api/login", "/image/**").permitAll()
-            .anyRequest().authenticated()
-            .and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .exceptionHandling()
+            .authenticationEntryPoint(authenticationEntryPoint)
+            .accessDeniedHandler(accessDeniedHandler);
+
+    // 配置授权
+    http.authorizeRequests(requests -> {
+      // 注册接口设置为完全公开
+      ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = requests
+              .antMatchers(
+                      "/api/register",             // 添加注册接口
+                      "/api/login",
+                      "/login",
+                      "/v2/api-docs",
+                      "/swagger-resources/configuration/ui",
+                      "/swagger-resources",
+                      "/swagger-resources/configuration/security",
+                      "/swagger-ui.html",
+                      "/webjars/**",
+                      "/image/**"
+              ).permitAll();
+
+      // 其他请求需要认证
+      registry.anyRequest().authenticated();
+    });
+
+    // 配置其他参数
+    http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .cors()
             .configurationSource(configurationSource())

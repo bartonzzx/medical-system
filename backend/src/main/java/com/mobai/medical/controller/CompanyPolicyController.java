@@ -24,16 +24,12 @@ public class CompanyPolicyController {
 
   @GetMapping(value = "")
   public Msg getPolicyWithPage(CompanyPolicyParam param) {
+    // 注意这个地方的分页有问题，实际上前端传过来的参数没有使用到，具体的分页参考CompanyController，以及参考postman中公司分页查询的参数
     Msg msg = companyPolicyService.getAllPolicyWithPage(param);
     return msg;
   }
 
-  /**
-   * 添加医药公司政策信息
-   *
-   * @param param
-   * @return
-   */
+  // 添加医药公司政策信息
   @RolesAllowed({"1"})
   @PostMapping(value = "")
   public Msg saveMedicalPolicy(@RequestBody CompanyPolicyParam param) {

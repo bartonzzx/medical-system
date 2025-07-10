@@ -15,7 +15,14 @@ public interface AccountMapper {
 
   int resetPwd(Long id, String pwd);
 
-  int regist(AccountEntity entity);
-
   int updateAccount(AccountEntity entity);
+
+  // 注册账号
+  int register(AccountEntity entity);
+
+  // 检查用户名
+  int checkUname(String uname);
+
+  // 检查手机号
+  int checkRegisterPhone(String phone);
 }

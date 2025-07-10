@@ -22,6 +22,11 @@
             <el-form-item>
               <button class="LoginBtn" @click="handleLogin('loginForm')"></button>
             </el-form-item>
+            <div class="register-link">
+              <el-button type="text" @click="$router.push('/user/register')">
+                没有账号？前往注册
+              </el-button>
+            </div>
           </div>
         </el-form>
       </div>
@@ -99,15 +104,18 @@ export default {
 }
 
 .form {
+  margin-top: 90px;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  transform: translateY(-15px); /* 微调垂直位置 */
+  transform: translateY(-15px);
+  /* 微调垂直位置 */
 }
 
 /* 表单元素优化 */
-.UserName, .Password {
+.UserName,
+.Password {
   border: 2px solid #2abeb2;
   border-radius: 20px;
   height: 70px;
@@ -138,7 +146,8 @@ export default {
 }
 
 /* 移除不必要的定位 */
-.NameNotNull, .PasswordNotNull {
+.NameNotNull,
+.PasswordNotNull {
   display: flex;
   justify-content: center;
   width: 100%;
@@ -152,7 +161,8 @@ export default {
   margin-left: 20px;
   border: none;
   box-shadow: none;
-  width: calc(100% - 70px); /* 防止内容溢出 */
+  width: calc(100% - 70px);
+  /* 防止内容溢出 */
 }
 
 /* 响应式优化 */
@@ -161,8 +171,9 @@ export default {
     width: 90%;
     background-size: cover;
   }
-  
-  .UserName, .Password {
+
+  .UserName,
+  .Password {
     width: 90%;
     max-width: 530px;
   }

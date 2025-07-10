@@ -2,10 +2,7 @@ package com.mobai.medical.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.mobai.medical.domain.CompanyPolicy;
-import com.mobai.medical.domain.DrugCompany;
 import com.mobai.medical.entity.CompanyPolicyEntity;
-import com.mobai.medical.entity.DrugCompanyEntity;
 import com.mobai.medical.mapper.CompanyPolicyMapper;
 import com.mobai.medical.model.CompanyPolicyModel;
 import com.mobai.medical.param.CompanyPolicyParam;
@@ -14,11 +11,7 @@ import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import javax.annotation.security.RolesAllowed;
-import java.util.Date;
 import java.util.List;
 
 @Service

@@ -63,7 +63,7 @@ public class DoctorService {
     }
 
     try {
-      int i = accountMapper.regist(aEntity); // 创建账户
+      int i = accountMapper.register(aEntity); // 创建账户
       // 医生信息处理
       DoctorEntity de = new DoctorEntity();
       BeanUtils.copyProperties(param, de);
