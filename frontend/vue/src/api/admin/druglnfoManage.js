@@ -4,7 +4,7 @@ import {
   judgeQueryResult,
   judgeModifyResult,
 } from "../../utils/app";
-import { request } from "../../utils/request";
+import request from "../../utils/request";
 //查询药品信息api
 export function getDrugInfo(pn, size, keyword = "") {
   return request({
