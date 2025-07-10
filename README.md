@@ -12,7 +12,8 @@ docker exec -it medical-system-db sh
 mysql -u root -p
 ```
 4. 导入后端服务所需数据
-```use medical;
+```
+use medical;
 ```
 ```
 source /root/medical_newFunction.sql
