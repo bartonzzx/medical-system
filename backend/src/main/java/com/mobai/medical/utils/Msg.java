@@ -1,11 +1,15 @@
 package com.mobai.medical.utils;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Msg {
   private Integer code;
   private String message;
@@ -47,4 +51,13 @@ public class Msg {
     this.setMessage(str);
     return this;
   }
+
+// 单元测试需要方法
+  private Map<String, Object> dataMap = new HashMap<>();
+
+  public Object get(String key) {
+    return dataMap.get(key);
+  }
+
+
 }
