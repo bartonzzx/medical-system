@@ -1,6 +1,6 @@
 services:
   medical-system-db:
-    image: bartonzzx/medical-system-db
+    image: bartonzzx/medical-system-db:1.0
     container_name: medical-system-db # 可选：为容器指定一个名称
     network_mode: host
     environment:
@@ -12,8 +12,9 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
+    
   medical-system:
-    image: bartonzzx/medical-system
+    image: bartonzzx/medical-system:1.0
     container_name: medical-system # 可选：为容器指定一个名称
     network_mode: host
     restart: unless-stopped # 除非手动停止，否则容器会在退出时自动重启
