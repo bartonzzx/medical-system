@@ -32,7 +32,7 @@ async def getCompanyPolicyByKeyword(token: str, keyword: str) -> Any:
                     body['pn'] += 1
 
                     for item in response_json['data']['policyInfo']['list']:
-                        item_policy_info = f"公司ID:{item['drugCompanyModel'].get('companyId','暂无')},公司名称:{item['drugCompanyModel'].get('companyName','')},政策ID:{item.get('id','')},政策名称:{item.get('title','')},政策内容:{item.get('message','')},修改时间:{item.get('updateTime','')}\n"
+                        item_policy_info = f"公司ID:{item['drugCompanyModel'].get('companyId','暂无')},公司名称:{item['drugCompanyModel'].get('companyName','')},政策ID:{item.get('id','')},政策名称:{item.get('title','')},政策内容:{item.get('message','')},修改时间:{item.get('updateTime','自创建后暂未更新')}\n"
                         all_info += item_policy_info
                 else:
                     return '获取公司政策信息失败：' + response_json.get('message', '未知错误')

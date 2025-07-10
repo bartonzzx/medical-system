@@ -47,7 +47,7 @@ async def getCityInfoById(token: str, cityId: int) -> Any:
             response_json = response.json()
             if response_json['success'] == True:
                 item = response_json['data']['city']
-                city_info = f"城市ID: {item['cityId']}, 城市邮编: {item['cityNumber']}, 信息创建时间: {item['createtime']}, 信息更新时间: {item['updatetime']}\n"
+                city_info = f"城市ID: {item['cityId']}, 城市邮编: {item['cityNumber']}, 信息创建时间: {item['createtime']}, 信息更新时间: {item.get('updatetime', '自创建后暂未更新')}\n"
                 return city_info
             else:
                 return '获取城市信息失败：' + response_json.get('message', '未知错误')
